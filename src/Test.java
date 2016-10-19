@@ -1,3 +1,5 @@
+import player.Joueur;
+import player.ListeDeJoueurs;
 
 public class Test {
 
