@@ -17,7 +17,12 @@ public class Joueur {
     public int getId() {
         return this.id;
     }
-
+    
+    public Voiture getCar()
+    {
+    	return this.car;
+    }
+    
     public double[] getPosition() {
         double positions[] = {this.car.getX(), this.car.getY(), this.car.getAngle()};
         return positions;
