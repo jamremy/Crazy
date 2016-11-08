@@ -57,23 +57,25 @@ public class nefertiti extends HttpServlet {
         	Joueur mon_joueur=ldj.searchJoueur(Integer.parseInt(id));
         	if (sens.compareTo("avancer")==0)
         	{	
-        		mon_joueur.getCar().avancer();
+        		mon_joueur.GetAvion().avancer();
+        		System.out.println("kjoklckdd");
         	}
         	else if (sens.compareTo("reculer")==0)
         	{	
-        		mon_joueur.getCar().reculer();
+        		mon_joueur.GetAvion().reculer();
+        		System.out.println("kjvcdsfvdsoklckdd");
         	}
         	else if (sens.compareTo("libre")==0)
         	{	
-        		mon_joueur.getCar().decelerer();
+        	
         	}
         	if (angle.compareTo("gauche")==0)
         	{
-        		mon_joueur.getCar().tournerGauche();
+        		mon_joueur.GetAvion().tournerGauche();
         	}
         	else if (angle.compareTo("droite")==0)
         	{	
-        		mon_joueur.getCar().tournerDroite();
+        		mon_joueur.GetAvion().tournerDroite();
         	}	
             PrintWriter out = response.getWriter();
             out.println(ldj.allPositions());	
