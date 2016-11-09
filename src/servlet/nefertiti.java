@@ -58,12 +58,10 @@ public class nefertiti extends HttpServlet {
         	if (sens.compareTo("avancer")==0)
         	{	
         		mon_joueur.GetAvion().avancer();
-        		System.out.println("kjoklckdd");
         	}
         	else if (sens.compareTo("reculer")==0)
         	{	
         		mon_joueur.GetAvion().reculer();
-        		System.out.println("kjvcdsfvdsoklckdd");
         	}
         	else if (sens.compareTo("libre")==0)
         	{	
