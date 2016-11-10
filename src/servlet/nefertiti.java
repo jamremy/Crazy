@@ -22,9 +22,7 @@ import player.ListeDeJoueurs;
 @WebServlet("/nefertiti")
 public class nefertiti extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private long current_time=0;
 	private Carte ma_carte=new Carte();
-
     /** 
      * @see HttpServlet#HttpServlet()
      */
@@ -32,7 +30,6 @@ public class nefertiti extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
-
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -40,8 +37,7 @@ public class nefertiti extends HttpServlet {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 	     long time=System.currentTimeMillis();
-	       long difference=time-current_time;
-	       current_time=time;
+	       ma_carte.Actualiser(time);
 		response.setContentType("text/html");
         response.setCharacterEncoding( "UTF-8" );
         //requete exemple pour creer un nouveau joueur 
@@ -86,12 +82,15 @@ public class nefertiti extends HttpServlet {
             PrintWriter out = response.getWriter();
             out.println(ma_carte.GetAllGraphiquesPosition());	
         }
+      //requete exemple pour changer le tire du joueur 
+        //http://localhost:8080/CrazyM2/nefertiti?requete=tire&id=1
         else if (requete.compareTo("tire")==0)
         {
         	PrintWriter out = response.getWriter();
         	String id=request.getParameter("id");
         	Joueur mon_joueur=ma_carte.GetListeDeJoueurs().searchJoueur(Integer.parseInt(id));
-        	ma_carte.GetListeDeGraphiques().add(new Bullet("Bullet",mon_joueur.GetAvion().GetX(),mon_joueur.GetAvion().GetY(),21,21));
+        	//Creation d'un objet de type bullet ajouter a la liste des graphiques de la carte
+        	ma_carte.GetListeDeGraphiques().add(new Bullet("Bullet",mon_joueur.GetAvion().GetX(),mon_joueur.GetAvion().GetY(),21,21,mon_joueur.GetAvion().getAngle()));
         	out.println(ma_carte.GetAllGraphiquesPosition());
         }
         
