@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import AirCraft.Bullet;
+
 public class ListeDeGraphiques extends ArrayList<Graphique> {
 
 	public JSONObject allPositions() {
@@ -23,5 +25,16 @@ public class ListeDeGraphiques extends ArrayList<Graphique> {
 			}
 		}
 		return positions;
+	}
+	//Actualise tout les graphiques de la liste qui ont besoin d'etre actualiser
+	public void Actualiser (long time)
+	{
+		for (Graphique g : this)
+		{
+			if (g instanceof Bullet)
+			{
+				((Bullet)g).Actualiser(time);
+			}
+		}
 	}
 }
