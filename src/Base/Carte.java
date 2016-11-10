@@ -12,10 +12,10 @@ public class Carte {
 	{
 		
 	}
-	
+	//Actualise la liste de graphique prśent sur la map
 	public void Actualiser(long time)
 	{
-		
+		ldg.Actualiser(time);
 	}
 	
 	public JSONObject GetAllGraphiquesPosition ()
@@ -41,3 +41,4 @@ public class Carte {
 		return ldj;
 	}
 }
+
