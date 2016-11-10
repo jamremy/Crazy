@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import AirCraft.Bullet;
+import Base.Carte;
+import Base.ListeDeGraphiques;
 import player.Joueur;
 import player.ListeDeJoueurs;
 
@@ -19,7 +22,9 @@ import player.ListeDeJoueurs;
 @WebServlet("/nefertiti")
 public class nefertiti extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	ListeDeJoueurs ldj = new ListeDeJoueurs();
+	private long current_time=0;
+	private Carte ma_carte=new Carte();
+
     /** 
      * @see HttpServlet#HttpServlet()
      */
@@ -34,6 +39,9 @@ public class nefertiti extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
+	     long time=System.currentTimeMillis();
+	       long difference=time-current_time;
+	       current_time=time;
 		response.setContentType("text/html");
         response.setCharacterEncoding( "UTF-8" );
         //requete exemple pour creer un nouveau joueur 
@@ -43,9 +51,9 @@ public class nefertiti extends HttpServlet {
         {
         String pseudo=request.getParameter("pseudo");
         Joueur player = new Joueur(pseudo);
-        ldj.addJoueur(player);
+        ma_carte.GetListeDeJoueurs().addJoueur(player);
         PrintWriter out = response.getWriter();
-        out.println(ldj.allPositions());
+        out.println(ma_carte.GetAllGraphiquesPosition());
         }
         //requete exemple pour changer la position du joueur 
         //http://localhost:8080/CrazyM2/nefertiti?requete=jeu&id=1&sens=avancer&angle=droite
@@ -54,7 +62,7 @@ public class nefertiti extends HttpServlet {
         	String id=request.getParameter("id");
         	String sens=request.getParameter("sens");
         	String angle=request.getParameter("angle");
-        	Joueur mon_joueur=ldj.searchJoueur(Integer.parseInt(id));
+        	Joueur mon_joueur=ma_carte.GetListeDeJoueurs().searchJoueur(Integer.parseInt(id));
         	if (sens.compareTo("avancer")==0)
         	{	
         		mon_joueur.GetAvion().avancer();
@@ -76,7 +84,16 @@ public class nefertiti extends HttpServlet {
         		mon_joueur.GetAvion().tournerDroite();
         	}	
             PrintWriter out = response.getWriter();
-            out.println(ldj.allPositions());	
+            out.println(ma_carte.GetAllGraphiquesPosition());	
         }
+        else if (requete.compareTo("tire")==0)
+        {
+        	PrintWriter out = response.getWriter();
+        	String id=request.getParameter("id");
+        	Joueur mon_joueur=ma_carte.GetListeDeJoueurs().searchJoueur(Integer.parseInt(id));
+        	ma_carte.GetListeDeGraphiques().add(new Bullet("Bullet",mon_joueur.GetAvion().GetX(),mon_joueur.GetAvion().GetY(),21,21));
+        	out.println(ma_carte.GetAllGraphiquesPosition());
+        }
+        
 	}
 }
