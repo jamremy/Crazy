@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import VaisseauEnnemi.Ennemi;
 import AirCraft.Bullet;
 import Base.Carte;
 import Base.ListeDeGraphiques;
@@ -23,6 +24,13 @@ import player.ListeDeJoueurs;
 public class nefertiti extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Carte ma_carte=new Carte();
+	
+	public void init()
+	{
+		ma_carte.GetListeDeEnnemis().add(new Ennemi("ennemi1", 200, 100, 100, 100));
+		ma_carte.GetListeDeEnnemis().add( new Ennemi("ennemi1", (int) (Math.random() * ( 800 )), (int) (Math.random() * ( 800 )), 100, 100));
+		
+	}
     /** 
      * @see HttpServlet#HttpServlet()
      */
@@ -37,6 +45,7 @@ public class nefertiti extends HttpServlet {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 	     long time=System.currentTimeMillis();
+	     ma_carte.DetectCollision();
 	       ma_carte.Actualiser(time);
 		response.setContentType("text/html");
         response.setCharacterEncoding( "UTF-8" );
@@ -96,3 +105,4 @@ public class nefertiti extends HttpServlet {
         
 	}
 }
+
