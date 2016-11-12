@@ -1,6 +1,7 @@
 package Base;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,12 +30,26 @@ public class ListeDeGraphiques extends ArrayList<Graphique> {
 	//Actualise tout les graphiques de la liste qui ont besoin d'etre actualiser
 	public void Actualiser (long time)
 	{
-		for (Graphique g : this)
-		{
-			if (g instanceof Bullet)
+		
+		for (Iterator<	Graphique> iterator = this.iterator(); iterator.hasNext(); ) {
+			Graphique g = iterator.next();
+			// si la balle est en dehors de l'ecran
+			if (g.GetX()<0 ||g.GetX()<0 || g.GetX()>800 || g.GetY()>800 )
 			{
-				((Bullet)g).Actualiser(time);
+				// je la supprime
+				iterator.remove();
+			}
+			else 
+			{
+				if (g instanceof Bullet)
+				{
+					//Actualisation de la position de la balle
+					((Bullet)g).Actualiser(time);
+				}
+					
 			}
 		}
+		
 	}
 }
+
