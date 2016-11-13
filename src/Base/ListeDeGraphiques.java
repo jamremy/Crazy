@@ -6,6 +6,7 @@ import java.util.Iterator;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import VaisseauEnnemi.BulletEnnemi;
 import AirCraft.Bullet;
 
 public class ListeDeGraphiques extends ArrayList<Graphique> {
@@ -33,18 +34,27 @@ public class ListeDeGraphiques extends ArrayList<Graphique> {
 		
 		for (Iterator<	Graphique> iterator = this.iterator(); iterator.hasNext(); ) {
 			Graphique g = iterator.next();
-			// si la balle est en dehors de l'ecran
+			//si une balle est en dehors de l'ecran alors suppression de celle-ci 
+		
 			if (g.GetX()<0 ||g.GetX()<0 || g.GetX()>800 || g.GetY()>800 )
-			{
-				// je la supprime
-				iterator.remove();
-			}
-			else 
 			{
 				if (g instanceof Bullet)
 				{
-					//Actualisation de la position de la balle
+				iterator.remove();
+				}
+			}
+			else 
+			{
+				if (Math.abs(g.GetTimeLastActualisation()-time)>g.GetFrequenceActualisation())
+				{
+				if (g instanceof BulletEnnemi)
+				{
+					((BulletEnnemi)g).Actualiser(time);
+				}
+				else if (g instanceof Bullet)
+				{
 					((Bullet)g).Actualiser(time);
+				}
 				}
 					
 			}
