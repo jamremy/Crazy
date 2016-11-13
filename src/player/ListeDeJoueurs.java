@@ -1,8 +1,11 @@
 package player;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import VaisseauEnnemi.Ennemi;
 
 public class ListeDeJoueurs {
 	private ArrayList<Joueur> liste;
@@ -23,7 +26,10 @@ public class ListeDeJoueurs {
 		}
 		return null;
 	}
-	
+	public ArrayList<Joueur> GetListeJoueur()
+	{
+		return this.liste;
+	}
 	public void deleteJoueur(int id) {
 		for(Joueur j : this.liste) {
 			if(j.getId()==id) {
@@ -31,7 +37,17 @@ public class ListeDeJoueurs {
 			}
 		}
 	}
-	
+	public void Actualiser (long time )
+	{
+		for (Iterator<	Joueur> iterator = this.liste.iterator(); iterator.hasNext(); ) {
+			Joueur j = iterator.next();
+			if (j.GetAvion().GetVie()<0 )
+			{
+				j.GetAvion().SetX(-150000000);
+				j.GetAvion().SetY(-255580200);
+			}
+		}
+	}
 	public JSONObject allPositions() {
 		JSONObject positions = new JSONObject();
 		for(Joueur j : this.liste) {
