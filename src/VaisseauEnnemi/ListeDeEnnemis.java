@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import AirCraft.Bullet;
 import Base.Graphique;
+import Base.ListeDeGraphiques;
 
 public class ListeDeEnnemis extends ArrayList <Ennemi> {
 	public JSONObject allPositions() {
@@ -30,7 +31,7 @@ public class ListeDeEnnemis extends ArrayList <Ennemi> {
 	}
 	
 	
-	public void Actualiser (long time)
+	public void Actualiser (long time,ListeDeGraphiques ldg)
 	{
 
 		for (Iterator<	Ennemi> iterator = this.iterator(); iterator.hasNext(); ) {
@@ -43,9 +44,24 @@ public class ListeDeEnnemis extends ArrayList <Ennemi> {
 			}
 			else 
 			{
-				e.Actualiser(time);
+				//S'il est temps d'actualiser l
+				if (Math.abs(e.GetTimeLastActualisation()-time)>e.GetFrequenceActualisation())
+				{
+				e.Actualiser(time,ldg);
+				}
 			}
 		}
+	}
+
+
+	public void move_all(int x, int y) {
+		// TODO Auto-generated method stub
+		for (Ennemi e :this)
+		{
+			e.SetX(e.GetX()+x);
+			e.SetY(e.GetY()+y);
+		}
+		
 	}
 
 }
