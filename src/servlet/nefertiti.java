@@ -23,7 +23,9 @@ import player.ListeDeJoueurs;
 @WebServlet("/nefertiti")
 public class nefertiti extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private Carte ma_carte=new Carte();
+	
+	//Attention chemin a modifie car correspondant a l'aborescence de BARNACIN
+	private Carte ma_carte=new Carte("/home/gundamotoko02/workspace2/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/CrazyM2Git"+"/Carte.nefe");
 	
 	public void init()
 	{
@@ -102,7 +104,3 @@ public class nefertiti extends HttpServlet {
         	ma_carte.GetListeDeGraphiques().add(new Bullet("Bullet",mon_joueur.GetAvion().GetX(),mon_joueur.GetAvion().GetY(),21,21,mon_joueur.GetAvion().getAngle()));
         	out.println(ma_carte.GetAllGraphiquesPosition());
         }
-        
-	}
-}
-
