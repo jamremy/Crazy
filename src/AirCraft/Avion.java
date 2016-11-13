@@ -3,15 +3,15 @@ package AirCraft;
 import Base.Graphique;
 
 public class Avion extends Graphique{
-	public static final double ANGLE = 5;
-	private double angle;
+	public static final double ANGLE = 2;
+	
 	private double vitesse;
 	private double  vie;
 	private int attaque;
 	private int defense;
 	public Avion(String Nom, int x, int y, int width,int height) {
 		super(Nom,x,y,width,height);
-		this.angle = 0;
+		this.SetAngle(0);
 		if (Nom.equals("MIG-51S"))
 		{
 			this.vie=10;
@@ -34,24 +34,46 @@ public class Avion extends Graphique{
 			this.defense=30;
 		}
 	}
-	public double getAngle() {
-		return angle;
-	}
-	
-	public void tournerGauche() {
-		angle = angle + ANGLE;
-	}
 
-	public void tournerDroite() {
-		angle = angle - ANGLE;
-	}
+	public void tournerGauche() {
+		
+		this.SetAngle(this.getAngle()+ANGLE);
 	
+	}
+	public void SetVie(double vie)
+	{
+		this.vie=vie;
+	}
+	public void  SetAttaque (int attaque)
+	{
+		this.attaque=attaque;
+	}
+	public void SetDefense (int defense)
+	{
+		this.defense=defense;
+	}
+	public void SetVitesse(double vitesse)
+	{
+		this.vitesse=vitesse;
+	}
+	public double GetVie()
+	{
+		return this.vie;
+	}
+	public void tournerDroite() {
+		this.SetAngle(this.getAngle()-ANGLE);
+	}
+	public void Blesser(Bullet balle)
+	{
+	
+			this.SetVie(this.GetVie()-balle.GetDegat());
+	}
 	public void avancer() {
-		this.SetX(this.GetX()+ (int)(vitesse*Math.cos(angle*Math.PI/180)));
-		this.SetY(this.GetY()+ (int)(vitesse*Math.sin(angle*Math.PI/180)));
+		this.SetX(this.GetX()+ (int)(vitesse*Math.cos(this.getAngle()*Math.PI/180)));
+		this.SetY(this.GetY()+ (int)(vitesse*Math.sin(this.getAngle()*Math.PI/180)));
 	}
 	public void reculer() {
-		this.SetX(this.GetX()- (int)(vitesse*Math.cos(angle*Math.PI/180)));
-		this.SetY(this.GetY()- (int)(vitesse*Math.sin(angle*Math.PI/180)));
+		this.SetX(this.GetX()- (int)(vitesse*Math.cos(this.getAngle()*Math.PI/180)));
+		this.SetY(this.GetY()- (int)(vitesse*Math.sin(this.getAngle()*Math.PI/180)));
 	}
 }
