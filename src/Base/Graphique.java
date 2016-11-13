@@ -8,6 +8,8 @@ public class Graphique {
 	private double angle;
 	private String type;
 	private static int increment = 0;
+	private long TimeLastActualisation=0; //Temps duquel la derniere actualisation du graphique a ete effectuee
+	private long FrequenceActualisation=100;//Temps  devant s'ecouler avant la prochaine actualisation du graphique
 	public Graphique (String nom, int x, int y ,int width , int height )
 	{
 		this.x=(int) x;
@@ -17,7 +19,24 @@ public class Graphique {
 		this.height=height;
 		this.id=++increment;
 	}
+	public long GetTimeLastActualisation()
+	{
+		return this.TimeLastActualisation;
+	}
 	
+	public void SetFrequenceActualisation(long time )
+	{
+		this.FrequenceActualisation=time;
+	}
+	
+	public long GetFrequenceActualisation()
+	{
+		return this.FrequenceActualisation;
+	}
+	public void SetTimeLastActualisation(long time)
+	{
+		this.TimeLastActualisation=time;
+	}
 	public String GetType()
 	{
 		return this.type;
