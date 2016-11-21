@@ -10,6 +10,8 @@ import org.json.JSONObject;
 import AirCraft.Bullet;
 import Base.Graphique;
 import Base.ListeDeGraphiques;
+import Explosion.ListeDeExplosions;
+import Explosion.explosion;
 
 public class ListeDeEnnemis extends ArrayList <Ennemi> {
 	public JSONObject allPositions() {
@@ -22,6 +24,7 @@ public class ListeDeEnnemis extends ArrayList <Ennemi> {
 				graphique.put("nom", e.GetNom());
 				graphique.put("x", e.GetX());
 				graphique.put("y", e.GetY());
+				graphique.put("Vie", e.GetVie());
 				positions.accumulate("Ennemis", graphique);
 			} catch (JSONException exc) {
 				exc.printStackTrace();
@@ -31,14 +34,16 @@ public class ListeDeEnnemis extends ArrayList <Ennemi> {
 	}
 	
 	
-	public void Actualiser (long time,ListeDeGraphiques ldg)
+	public void Actualiser (long time,ListeDeGraphiques ldg, ListeDeExplosions ldex)
 	{
 
 		for (Iterator<	Ennemi> iterator = this.iterator(); iterator.hasNext(); ) {
 			Ennemi e = iterator.next();
-			if (e.GetVie()<0 )
+			if (e.GetVie()<=0 )
 			{
+				ldex.add(new explosion("Explosion1",e.GetX(),e.GetY(),100,100));
 				iterator.remove();
+			
 				//e.SetX(-5000);
 				//this.add( new Ennemi("ennemi1", (int) (Math.random() * ( 800 )), (int) (Math.random() * ( 800 )), 100, 100));
 			}
