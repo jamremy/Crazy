@@ -101,6 +101,10 @@ public class nefertiti extends HttpServlet {
         	String id=request.getParameter("id");
         	Joueur mon_joueur=ma_carte.GetListeDeJoueurs().searchJoueur(Integer.parseInt(id));
         	//Creation d'un objet de type bullet ajouter a la liste des graphiques de la carte
-        	ma_carte.GetListeDeGraphiques().add(new Bullet("Bullet",mon_joueur.GetAvion().GetX(),mon_joueur.GetAvion().GetY(),21,21,mon_joueur.GetAvion().getAngle()));
+        	mon_joueur.GetAvion().tirer(ma_carte.GetListeDeGraphiques());
+        	//ma_carte.GetListeDeGraphiques().add(new Bullet("Bullet",mon_joueur.GetAvion().GetX(),mon_joueur.GetAvion().GetY(),21,21,mon_joueur.GetAvion().getAngle()));
         	out.println(ma_carte.GetAllGraphiquesPosition());
         }
+        
+	}
+}
