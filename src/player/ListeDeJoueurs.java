@@ -41,11 +41,13 @@ public class ListeDeJoueurs {
 	{
 		for (Iterator<	Joueur> iterator = this.liste.iterator(); iterator.hasNext(); ) {
 			Joueur j = iterator.next();
+			j.GetAvion().Actualiser();
 			if (j.GetAvion().GetVie()<0 )
 			{
 				j.GetAvion().SetX(-150000000);
 				j.GetAvion().SetY(-255580200);
 			}
+			
 		}
 	}
 	public JSONObject allPositions() {
@@ -54,17 +56,19 @@ public class ListeDeJoueurs {
 			JSONObject joueur = new JSONObject();
 			double infos[] = j.getPosition();
 			try {
-				joueur.put("id", j.getId());
-				joueur.put("x", infos[0]);
-				joueur.put("y", infos[1]);
-				joueur.put("angle", infos[2]);
-				positions.accumulate("Joueur", joueur);
-			} catch (JSONException e) {
+					joueur.put("id", j.getId());
+					joueur.put("x", infos[0]);
+					joueur.put("y", infos[1]);
+					joueur.put("Vie", j.GetAvion().GetVie());
+					joueur.put("Score", j.GetScore());
+					joueur.put("angle", infos[2]);
+					positions.accumulate("Joueur", joueur);
+				} 
+			catch (JSONException e) 
+			{
 				e.printStackTrace();
 			}
 		}
 		return positions;
-	}
-	
-	
+	}	
 }
