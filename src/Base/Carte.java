@@ -9,6 +9,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import AirCraft.Bullet;
+import Bonus.ListeDeBonus;
+import Bonus.bonus;
+import Explosion.ListeDeExplosions;
 import VaisseauEnnemi.BulletEnnemi;
 import VaisseauEnnemi.Ennemi;
 import VaisseauEnnemi.ListeDeEnnemis;
@@ -19,6 +22,8 @@ public class Carte {
 	private ListeDeJoueurs ldj = new ListeDeJoueurs();
 	private ListeDeGraphiques ldg = new ListeDeGraphiques();
 	private ListeDeEnnemis lde=new ListeDeEnnemis();
+	private ListeDeExplosions ldex =new ListeDeExplosions();
+	private ListeDeBonus ldb=new ListeDeBonus();
 	long TimeLastActualisation=0;
 	char BufferMap[][]=new char[1000][];
 	public Carte (String fichier)
@@ -61,6 +66,28 @@ public class Carte {
 						{
 							this.lde.add(new Ennemi("ennemi1", i*-80, j*80, 100, 100));
 						}
+						else if(BufferMap [i][j]=='S')
+						{
+							this.ldb.add(new bonus("Sante",i*-80, j*80, 100, 100));
+						}
+						else if(BufferMap [i][j]=='T')
+						{
+							this.ldb.add(new bonus("BallePerforante",i*-80, j*80, 100, 100));
+						}
+						else if(BufferMap [i][j]=='M')
+						{
+							this.ldb.add(new bonus("Missile",i*-80, j*80, 100, 100));
+						}
+						else if(BufferMap [i][j]=='3')
+						{
+							this.ldb.add(new bonus("Ballefoistrois",i*-80, j*80, 100, 100));
+						}
+						else if(BufferMap [i][j]=='O')
+						{
+							this.ldb.add(new bonus("Bouclier",i*-80, j*80, 100, 100));
+						}
+						
+						
 					}
 				}
 			}
@@ -74,13 +101,16 @@ public class Carte {
 		if (Math.abs(time-TimeLastActualisation)>50)
 		{
 			lde.move_all(5,0);
+			ldb.move_all(5,0);
 			TimeLastActualisation=time;
 		}
 		System.out.println(time-TimeLastActualisation);
 		
 		ldg.Actualiser(time);
-		lde.Actualiser(time,ldg);
+		lde.Actualiser(time,ldg,ldex);
 		ldj.Actualiser(time);
+		ldb.Actualiser(time);
+		ldex.Actualiser(time);
 	
 	}
 	
@@ -91,6 +121,8 @@ public class Carte {
 			positions.accumulate("Carte", this.ldj.allPositions());
 			positions.accumulate("Carte", this.ldg.allPositions());
 			positions.accumulate("Carte", this.lde.allPositions());
+			positions.accumulate("Carte", this.ldex.allPositions());
+			positions.accumulate("Carte", this.ldb.allPositions());
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -105,6 +137,20 @@ public class Carte {
 	//Detecte et traite les collision entre les different objet present sur la carte
 	public void DetectCollision()
 	{
+		
+		for (bonus b:ldb)
+		{
+			for (Joueur j:ldj.GetListeJoueur())
+			{
+				// en cas de collision entre un avion et un bonus on affecte ce bonus a la liste des bonus de l'avion
+				if (b.ColliDeRect(j.GetAvion())==true)
+				{
+					j.GetAvion().GetMesBonus().add(b);
+					b.Set_DejaUtilise(true);
+				}
+			}
+			
+		}
 		
 		for (Graphique g :ldg )
 		{
@@ -122,6 +168,18 @@ public class Carte {
 						g.SetX(-500);
 					}
 					
+				}
+			}
+		}
+		for (Ennemi e : lde)
+		{
+			for (Joueur j:ldj.GetListeJoueur())
+			{
+				// en cas de collision entre un ennemi et un avion on detruit lennemi et on retire des point de vie a l'avion
+				if (e.ColliDeRect(j.GetAvion())==true )
+				{
+					e.Blesser(new Bullet("DeathBullet",0,0,100,100,20));
+					j.GetAvion().Blesser(new Bullet("BallePerforante",0,0,100,100,20));
 				}
 			}
 		}
