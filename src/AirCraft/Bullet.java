@@ -12,7 +12,14 @@ public class Bullet extends Graphique {
 		this.degats=5;
 		this.SetAngle(angle);
 		this.SetFrequenceActualisation(10);
-		
+		if (nom.compareTo("BallePerforante")==0)
+		{
+			this.degats=15;
+		}
+		else if (nom.compareTo("DeathBullet")==0)
+		{
+			this.degats=1000000;
+		}
 	}
 	
 	public  void SetDegats(int degats)
