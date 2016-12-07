@@ -1,4 +1,4 @@
-package Bonus;
+package bonus;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -6,12 +6,12 @@ import java.util.Iterator;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import AirCraft.Bullet;
-import Base.Graphique;
-import VaisseauEnnemi.BulletEnnemi;
-import VaisseauEnnemi.Ennemi;
+import airCraft.Bullet;
+import base.Graphique;
+import vaisseauEnnemi.BulletEnnemi;
+import vaisseauEnnemi.Ennemi;
 
-public class ListeDeBonus extends ArrayList<bonus>{
+public class ListeDeBonus extends ArrayList<Bonus>{
 	
 	
 	public JSONObject allPositions() {
@@ -35,8 +35,8 @@ public class ListeDeBonus extends ArrayList<bonus>{
 	public void Actualiser (long time)
 	{
 		
-		for (Iterator<bonus> iterator = this.iterator(); iterator.hasNext(); ) {
-			bonus b = iterator.next();
+		for (Iterator<Bonus> iterator = this.iterator(); iterator.hasNext(); ) {
+			Bonus b = iterator.next();
 			if (b.GetDuree()==0 || b.Get_DejaUtilise()==true )
 			{
 				iterator.remove();
@@ -51,7 +51,7 @@ public class ListeDeBonus extends ArrayList<bonus>{
 	}
 	public void move_all(int x, int y) {
 		// TODO Auto-generated method stub
-		for (bonus b:this)
+		for (Bonus b:this)
 		{
 			b.SetX(b.GetX()+x);
 			b.SetY(b.GetY()+y);

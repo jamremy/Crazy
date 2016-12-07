@@ -1,4 +1,4 @@
-package Base;
+package base;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -6,8 +6,8 @@ import java.util.Iterator;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import VaisseauEnnemi.BulletEnnemi;
-import AirCraft.Bullet;
+import airCraft.Bullet;
+import vaisseauEnnemi.BulletEnnemi;
 
 public class ListeDeGraphiques extends ArrayList<Graphique> {
 

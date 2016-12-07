@@ -1,6 +1,6 @@
-package AirCraft;
+package airCraft;
 
-import Base.Graphique;
+import base.Graphique;
 
 public class Bullet extends Graphique {
 	private int degats;

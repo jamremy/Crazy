@@ -1,3 +1,6 @@
+import com.sun.glass.ui.Application;
+
+import base.Carte;
 import player.Joueur;
 import player.ListeDeJoueurs;
 
@@ -18,6 +21,13 @@ public class Test {
 		System.out.println(ldj.allPositions());
 		
 		Joueur nouveau = ldj.searchJoueur(3);
-		
+		/*
+		Carte carteActuel = new Carte("WebContent/maps/1.map");
+		System.out.println("Map created");
+		System.out.println(carteActuel.GetAllGraphiquesPosition());
+		*/
+		Class<?> clazz = Application.class;
+		Package pckg = clazz.getPackage();
+		System.out.println(pckg.getName());
 	}
 }

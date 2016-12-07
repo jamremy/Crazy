@@ -1,8 +1,8 @@
-package VaisseauEnnemi;
+package vaisseauEnnemi;
 
-import AirCraft.Avion;
-import AirCraft.Bullet;
-import Base.ListeDeGraphiques;
+import airCraft.Avion;
+import airCraft.Bullet;
+import base.ListeDeGraphiques;
 
 public class Ennemi extends Avion{
 

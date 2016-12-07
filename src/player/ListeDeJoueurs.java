@@ -5,7 +5,7 @@ import java.util.Iterator;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import VaisseauEnnemi.Ennemi;
+import vaisseauEnnemi.Ennemi;
 
 public class ListeDeJoueurs {
 	private ArrayList<Joueur> liste;

@@ -1,11 +1,11 @@
-package AirCraft;
+package airCraft;
 
 import java.util.Iterator;
 
-import Base.Graphique;
-import Base.ListeDeGraphiques;
-import Bonus.ListeDeBonus;
-import Bonus.bonus;
+import base.Graphique;
+import base.ListeDeGraphiques;
+import bonus.Bonus;
+import bonus.ListeDeBonus;
 
 public class Avion extends Graphique{
 	public static final double ANGLE = 2;
@@ -114,8 +114,8 @@ public class Avion extends Graphique{
 	public void Actualiser()
 	{
 		int i=0;
-		for (Iterator<bonus> iterator = MesBonus.iterator(); iterator.hasNext(); ) {
-			bonus b = iterator.next();
+		for (Iterator<Bonus> iterator = MesBonus.iterator(); iterator.hasNext(); ) {
+			Bonus b = iterator.next();
 			
 			if (b.GetDuree()==0 )
 			{
@@ -142,7 +142,7 @@ public class Avion extends Graphique{
 	{
 		if (this.MesBonus.size()!=0)
 		{
-			for (bonus b: MesBonus)
+			for (Bonus b: MesBonus)
 			{
 			if  (b.GetNom().compareTo("Ballefoistrois")==0)
 			{

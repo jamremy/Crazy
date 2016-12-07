@@ -1,6 +1,6 @@
-package VaisseauEnnemi;
+package vaisseauEnnemi;
 
-import AirCraft.Bullet;
+import airCraft.Bullet;
 
 public class BulletEnnemi extends Bullet {
 

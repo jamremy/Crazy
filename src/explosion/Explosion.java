@@ -1,12 +1,12 @@
-package Explosion;
+package explosion;
 
-import Base.Graphique;
+import base.Graphique;
 
-public class explosion extends Graphique{
+public class Explosion extends Graphique{
 
-	private int NumImage=0;
+	private int NumImage = 0;
 	private int NbImage; //Nombre d'image  que 
-	public explosion(String nom, int x, int y, int width, int height) {
+	public Explosion(String nom, int x, int y, int width, int height) {
 		super(nom, x, y, width, height);
 		this.SetFrequenceActualisation(100);
 		if (nom.compareTo("Explosion1")==0)

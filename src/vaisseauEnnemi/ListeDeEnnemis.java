@@ -1,4 +1,4 @@
-package VaisseauEnnemi;
+package vaisseauEnnemi;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -7,11 +7,11 @@ import java.util.Random;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import AirCraft.Bullet;
-import Base.Graphique;
-import Base.ListeDeGraphiques;
-import Explosion.ListeDeExplosions;
-import Explosion.explosion;
+import airCraft.Bullet;
+import base.Graphique;
+import base.ListeDeGraphiques;
+import explosion.ListeDeExplosions;
+import explosion.Explosion;
 
 public class ListeDeEnnemis extends ArrayList <Ennemi> {
 	public JSONObject allPositions() {
@@ -41,7 +41,7 @@ public class ListeDeEnnemis extends ArrayList <Ennemi> {
 			Ennemi e = iterator.next();
 			if (e.GetVie()<=0 )
 			{
-				ldex.add(new explosion("Explosion1",e.GetX(),e.GetY(),100,100));
+				ldex.add(new Explosion("Explosion1",e.GetX(),e.GetY(),100,100));
 				iterator.remove();
 			
 				//e.SetX(-5000);
