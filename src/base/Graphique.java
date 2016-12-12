@@ -63,7 +63,7 @@ public class Graphique {
 	{
 		return id;
 	}
-	public void SetX(int x)
+	public void setX(int x)
 	{
 		this.x=x;
 	}

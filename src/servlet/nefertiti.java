@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import base.Carte;
 import player.Joueur;
 
@@ -27,6 +30,9 @@ public class nefertiti extends HttpServlet {
     String angle  = null;
     Joueur joueur = null;    
     String pseudo = null;
+    String avion  = null;
+    
+    JSONObject erreur     = null;
     
 	public void init() {
 		carteActuel = new Carte(getServletContext().getRealPath("/maps/1.map"));
@@ -62,18 +68,33 @@ public class nefertiti extends HttpServlet {
 	    // Prise en charge de la requete...
         String requete = request.getParameter("requete");
         if (requete != null) { // S'il n'y a rien a traiter alors on ne fait on ne fait rien.
-        	this.out = response.getWriter();
+        	this.out    = response.getWriter();
+        	this.erreur = new JSONObject();
         	
-	        if (requete.compareTo("nouveau") == 0) {
-	            /**
-	             * requete exemple pour creer un nouveau joueur 
-	             * http://localhost:8080/CrazyM2/nefertiti?requete=nouveau&pseudo=jjj 
-	             **/
-	        	this.pseudo = request.getParameter("pseudo");
-	        	
-	        	this.carteActuel.GetListeDeJoueurs().addJoueur(new Joueur(pseudo));	
-	        } 
-	        else if (requete.compareTo("jeu") == 0) {
+		    if (requete.compareTo("nouveau") == 0) {
+	        	// On limite le nombre de joueur
+				if (this.carteActuel.nombreDeJoueurs() < Joueur.maximum) {
+					/**
+					 * requete exemple pour creer un nouveau joueur 
+					 * http://localhost:8080/CrazyM2/nefertiti?requete=nouveau&pseudo=jjj 
+					 **/
+					this.pseudo = request.getParameter("pseudo");
+					this.avion  = request.getParameter("avion");
+					
+					this.joueur = new Joueur(pseudo, this.avion);
+					this.carteActuel.ajouterJoueur(this.joueur);
+										
+					System.out.println("Un nouveau joueur avec le pseudo \""+ this.pseudo + "\" a ete cree " + 
+									   "il a demande l'avion \"" + request.getParameter("avion") + "\".\n");
+					
+					this.ajouterMsgErreur("-1", "retour,id,requete", "OK", "" + this.joueur.getId(), requete);
+				}
+				else {
+					System.out.println("Erreur : le nombre de maximum joueur pouvant se connecter est atteint \n");
+					this.ajouterMsgErreur("-1", "retour,id,requete", "NOK", "" + this.joueur.getId(), requete);
+				}
+				
+	        } else if (requete.compareTo("jeu") == 0) {
 	        	/**
 	        	 * requete exemple pour changer la position du joueur 
 	        	 * http://localhost:8080/CrazyM2/nefertiti?requete=jeu&id=1&sens=avancer&angle=droite 
@@ -81,40 +102,96 @@ public class nefertiti extends HttpServlet {
 	        	this.id     = request.getParameter("id");
 	        	this.sens   = request.getParameter("sens");
 	        	this.angle  = request.getParameter("angle");
-	        	this.joueur = this.carteActuel.GetListeDeJoueurs().searchJoueur(Integer.parseInt(id));
+	        	this.joueur = this.carteActuel.getJoueur(Integer.parseInt(id));
 	        	
 	        	if (sens.compareTo("avancer") == 0) {	
-	        		this.joueur.GetAvion().avancer();
+	        		this.joueur.getAvion().avancer();
 	        		
 	        	} else if (sens.compareTo("reculer") == 0) {	
-	        		this.joueur.GetAvion().reculer();
+	        		this.joueur.getAvion().reculer();
 	        		
 	        	} else if (sens.compareTo("libre") == 0) {	
 	        	
 	        	}
 	        	
 	        	if (angle.compareTo("gauche") == 0) {
-	        		this.joueur.GetAvion().tournerGauche();
+	        		this.joueur.getAvion().tournerGauche();
 	        		
 	        	} else if (angle.compareTo("droite") == 0) {	
-	        		this.joueur.GetAvion().tournerDroite();
-	        	}	
-	        }
-	        else if (requete.compareTo("tire") == 0) {
+	        		this.joueur.getAvion().tournerDroite();
+	        	}
+	        	
+	        	System.out.println("x : " + this.joueur.getEtat()[0] + " y : " + this.joueur.getEtat()[1] + 
+	        					   " angle : " + this.joueur.getEtat()[2] + " pseudo : " +  this.joueur.getEtat()[3]);
+	        	
+	        	this.ajouterMsgErreur("-1", "retour,id,requete", "OK", "" + this.joueur.getId(), requete);
+	        	
+	        } else if (requete.compareTo("tire") == 0) {
 	        	/**
 	        	 * requete exemple pour changer le tire du joueur  
 	        	 * http://localhost:8080/CrazyM2/nefertiti?requete=tire&id=1
 	        	 **/
 	        	
 	        	this.id     = request.getParameter("id");
-	        	this.joueur = this.carteActuel.GetListeDeJoueurs().searchJoueur(Integer.parseInt(id));
+	        	this.joueur = this.carteActuel.getJoueur(Integer.parseInt(id));
 	        	
 	        	//Creation d'un objet de type bullet ajouter a la liste des graphiques de la carte
-	        	this.joueur.GetAvion().tirer(this.carteActuel.GetListeDeGraphiques());	        	
+	        	this.joueur.getAvion().tirer(this.carteActuel.GetListeDeGraphiques());
+	        	
+	        	this.ajouterMsgErreur("-1", "retour,id,requete", "OK", "" + this.joueur.getId(), requete);
 	        }
 	        
 	        // Retourner la liste mise a jour des elements présents sur la carte.
-	        this.out.println(this.carteActuel.GetAllGraphiquesPosition());
+	        //this.out.println(this.carteActuel.getAllGraphiquesPosition());
+		    this.out.println(this.repondre());
         }        
+	}
+	
+	public void ajouterMsgErreur(String id, String format, String... args) /*throws Exception*/ {
+		JSONObject colis     = new JSONObject();
+		JSONObject conteneur = new JSONObject();
+		String[]   argsName  = format.split(",");
+		int        i         = 0;	
+		
+		//if (argsName.length != args.length)
+			//throw new Exception("Mismatch format length and args length.");
+			
+		for (String erreur : args) {
+			try {
+				colis.put(argsName[i], erreur);				
+				++i;
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		try {
+			conteneur.accumulate(id, colis);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			this.erreur.accumulate("Erreur", conteneur);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 Cette methode renvoie l'etat du serveur. 
+	 **/
+	public JSONObject repondre() {
+		JSONObject etatServeur = new JSONObject();
+		
+		try {
+			etatServeur.accumulate("Serveur", this.carteActuel.getEtat());
+			etatServeur.accumulate("Serveur", this.erreur);
+			
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		return etatServeur;
 	}
 }

@@ -1,11 +1,10 @@
 package player;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import vaisseauEnnemi.Ennemi;
 
 public class ListeDeJoueurs {
 	private ArrayList<Joueur> liste;
@@ -14,61 +13,84 @@ public class ListeDeJoueurs {
 		this.liste = new ArrayList<Joueur>();
 	}
 
-	public void addJoueur(Joueur player) {
+	public void ajouterJoueur(Joueur player) {
 		liste.add(player);
 	}
 	
-	public Joueur searchJoueur(int id) {
+	public Joueur getJoueur(int id) {
 		for(Joueur j : this.liste) {
 			if(j.getId() == id) {
 				return j;
 			}
 		}
+		
 		return null;
 	}
-	public ArrayList<Joueur> GetListeJoueur()
-	{
+	
+	public ArrayList<Joueur> getListeJoueur() {
 		return this.liste;
 	}
-	public void deleteJoueur(int id) {
+	
+	public void supprimerJoueur(int id) {
 		for(Joueur j : this.liste) {
-			if(j.getId()==id) {
+			if(j.getId() == id) {
 				liste.remove(j);
 			}
 		}
 	}
-	public void Actualiser (long time )
-	{
-		for (Iterator<	Joueur> iterator = this.liste.iterator(); iterator.hasNext(); ) {
-			Joueur j = iterator.next();
-			j.GetAvion().Actualiser();
-			if (j.GetAvion().GetVie()<0 )
-			{
-				j.GetAvion().SetX(-150000000);
-				j.GetAvion().SetY(-255580200);
+	
+	public void actualiser (long time) {
+		Iterator <Joueur> iterator = this.liste.iterator();
+		Joueur j = null;
+		
+		while (iterator.hasNext()) {
+			j = iterator.next();
+			
+			j.getAvion().actualiser();
+			
+			if (j.getAvion().getVie() < 0 ) {
+				j.getAvion().setX(-150000000);
+				j.getAvion().SetY(-255580200);
 			}
 			
 		}
 	}
+	
+    public int getNombreDeConnecte() {
+		return this.liste.size();
+	}
+
 	public JSONObject allPositions() {
-		JSONObject positions = new JSONObject();
+		JSONObject conteneur = new JSONObject();
+		JSONObject colis     = new JSONObject();
+		
 		for(Joueur j : this.liste) {
-			JSONObject joueur = new JSONObject();
-			double infos[] = j.getPosition();
+			JSONObject joueur  = new JSONObject();
+			String     infos[] = j.getEtat();
+			
 			try {
-					joueur.put("id", j.getId());
-					joueur.put("x", infos[0]);
-					joueur.put("y", infos[1]);
-					joueur.put("Vie", j.GetAvion().GetVie());
-					joueur.put("Score", j.GetScore());
-					joueur.put("angle", infos[2]);
-					positions.accumulate("Joueur", joueur);
-				} 
-			catch (JSONException e) 
-			{
+				joueur.put("id",     j.getId());
+				joueur.put("x",      infos[0]);
+				joueur.put("y",      infos[1]);
+				joueur.put("vie",    j.getAvion().getVie());
+				joueur.put("score",  j.getScore());
+				joueur.put("angle",  infos[2]);
+				joueur.put("pseudo", j.getPseudo());
+				
+				// On met les objets dans le colis
+				colis.accumulate(Integer.toString(j.getId()), joueur);
+			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 		}
-		return positions;
+		
+		try {
+			// On met le colis dans le conteneur
+			conteneur.accumulate("Joueur", colis);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		return conteneur;
 	}	
 }

@@ -43,7 +43,7 @@ public class Bullet extends Graphique {
 	
 	public void Avancer()
 	{
-		this.SetX(this.GetX()- (int)(vitesse*Math.cos(this.getAngle()*Math.PI/180)));
+		this.setX(this.GetX()- (int)(vitesse*Math.cos(this.getAngle()*Math.PI/180)));
 		this.SetY(this.GetY()- (int)(vitesse*Math.sin(this.getAngle()*Math.PI/180)));
 	}
 	public int GetDegat() 

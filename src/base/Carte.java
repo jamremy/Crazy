@@ -1,11 +1,7 @@
 package base;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,8 +27,6 @@ public class Carte {
 
 	public Carte(String cheminCarte) {
 		int i = 0;
-		int x, y;
-		String chaine = "";
 		
 		// Chargement du contenu de la carte
 		try {		
@@ -42,7 +36,7 @@ public class Carte {
 			String            ligne = null;
 			
 			while ((ligne = br.readLine()) != null) {
-				chaine += ligne + "\n";
+				
 
 				//System.out.println("chaine : " + chaine);
 				
@@ -61,22 +55,22 @@ public class Carte {
 			for (int j = 0; j < BufferMap[i].length; j++) {				
 				if (BufferMap[i][j] != 'A') {
 					if (BufferMap[i][j] == 'B') {
-						this.listeEnnemis.add(new Ennemi("ennemi1", i * -80, j * 80, 100, 100));
+						this.getListeEnnemis().add(new Ennemi("ennemi1", i * -80, j * 80, 100, 100));
 					}
 					else if (BufferMap[i][j] == 'S') {
-						this.listeBonus.add(new Bonus("Sante", i * -80, j * 80, 100, 100));
+						this.getListeBonus().add(new Bonus("Sante", i * -80, j * 80, 100, 100));
 					}
 					else if (BufferMap[i][j] == 'T') {
-						this.listeBonus.add(new Bonus("BallePerforante", i * -80, j * 80, 100, 100));
+						this.getListeBonus().add(new Bonus("BallePerforante", i * -80, j * 80, 100, 100));
 					}
 					else if (BufferMap[i][j] == 'M') {
-						this.listeBonus.add(new Bonus("Missile", i * -80, j * 80, 100, 100));
+						this.getListeBonus().add(new Bonus("Missile", i * -80, j * 80, 100, 100));
 					}
 					else if (BufferMap[i][j] == '3') {
-						this.listeBonus.add(new Bonus("Ballefoistrois", i * -80, j * 80, 100, 100));
+						this.getListeBonus().add(new Bonus("Ballefoistrois", i * -80, j * 80, 100, 100));
 					}
 					else if (BufferMap[i][j] == 'O') {
-						this.listeBonus.add(new Bonus("Bouclier", i * -80, j * 80, 100, 100));
+						this.getListeBonus().add(new Bonus("Bouclier", i * -80, j * 80, 100, 100));
 					}
 				}
 			}
@@ -86,30 +80,31 @@ public class Carte {
 	// Actualise la liste de graphique prśent sur la map
 	public void Actualiser(long time) {
 		if (Math.abs(time - TimeLastActualisation) > 50) {
-			listeEnnemis.move_all(5, 0);
-			listeBonus.move_all(5, 0);
+			getListeEnnemis().move_all(5, 0);
+			getListeBonus().move_all(5, 0);
 			TimeLastActualisation = time;
 		}
 		
 		System.out.println(time - TimeLastActualisation);
 
-		listeGraphiques.Actualiser(time);
-		listeEnnemis.Actualiser(time, listeGraphiques, listeExplosions);
-		listeJoueurs.Actualiser(time);
-		listeBonus.Actualiser(time);
-		listeExplosions.Actualiser(time);
+		getListeGraphiques().Actualiser(time);
+		getListeEnnemis().Actualiser(time, getListeGraphiques(), getListeExplosions());
+		getListeJoueurs().actualiser(time);
+		getListeBonus().Actualiser(time);
+		getListeExplosions().Actualiser(time);
 
 	}
 
-	public JSONObject GetAllGraphiquesPosition() {
+	public JSONObject getEtat() {
 		JSONObject positions = new JSONObject();
 		
 		try {
-			positions.accumulate("Carte", this.listeJoueurs.allPositions());
-			positions.accumulate("Carte", this.listeGraphiques.allPositions());
-			positions.accumulate("Carte", this.listeEnnemis.allPositions());
-			positions.accumulate("Carte", this.listeExplosions.allPositions());
-			positions.accumulate("Carte", this.listeBonus.allPositions());
+			positions.accumulate("Carte", this.getListeJoueurs().allPositions());
+			positions.accumulate("Carte", this.getListeGraphiques().allPositions());
+			positions.accumulate("Carte", this.getListeEnnemis().allPositions());
+			positions.accumulate("Carte", this.getListeExplosions().allPositions());
+			positions.accumulate("Carte", this.getListeBonus().allPositions());
+			
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -118,49 +113,49 @@ public class Carte {
 	}
 
 	public ListeDeGraphiques GetListeDeGraphiques() {
-		return listeGraphiques;
+		return getListeGraphiques();
 	}
 
 	// Detecte et traite les collision entre les different objet present sur la carte
 	public void DetectCollision() {
-		for (Bonus bonusActuel : listeBonus) {
-			for (Joueur j : listeJoueurs.GetListeJoueur()) {
+		for (Bonus bonusActuel : getListeBonus()) {
+			for (Joueur j : getListeJoueurs().getListeJoueur()) {
 				// en cas de collision entre un avion et un bonus on affecte ce bonus a la liste des bonus de l'avion
-				if (bonusActuel.ColliDeRect(j.GetAvion()) == true) {
-					j.GetAvion().GetMesBonus().add(bonusActuel);
+				if (bonusActuel.ColliDeRect(j.getAvion()) == true) {
+					j.getAvion().GetMesBonus().add(bonusActuel);
 					bonusActuel.Set_DejaUtilise(true);
 				}
 			}
 		}
 
-		for (Graphique graphiqueActuel : listeGraphiques) {
-			for (Joueur joueursActuel : listeJoueurs.GetListeJoueur()) {
+		for (Graphique graphiqueActuel : getListeGraphiques()) {
+			for (Joueur joueursActuel : getListeJoueurs().getListeJoueur()) {
 				// si il y a une collision entre un avion et un graphique present sur la map
-				if (graphiqueActuel.ColliDeRect(joueursActuel.GetAvion()) == true) {
+				if (graphiqueActuel.ColliDeRect(joueursActuel.getAvion()) == true) {
 					// sil sagit d'une balle ennemis
 					if (graphiqueActuel instanceof BulletEnnemi) {
 						// blesser l'avion
-						joueursActuel.GetAvion().Blesser((BulletEnnemi) graphiqueActuel);
+						joueursActuel.getAvion().Blesser((BulletEnnemi) graphiqueActuel);
 						// Detruire le balle
-						graphiqueActuel.SetX(-500);
+						graphiqueActuel.setX(-500);
 					}
 				}
 			}
 		}
 		
-		for (Ennemi ennemiActuel : listeEnnemis) {
-			for (Joueur j : listeJoueurs.GetListeJoueur()) {
+		for (Ennemi ennemiActuel : getListeEnnemis()) {
+			for (Joueur j : getListeJoueurs().getListeJoueur()) {
 				// en cas de collision entre un ennemi et un avion on detruit lennemi et on retire des point de vie a
 				// l'avion
-				if (ennemiActuel.ColliDeRect(j.GetAvion()) == true) {
+				if (ennemiActuel.ColliDeRect(j.getAvion()) == true) {
 					ennemiActuel.Blesser(new Bullet("DeathBullet", 0, 0, 100, 100, 20));
-					j.GetAvion().Blesser(new Bullet("BallePerforante", 0, 0, 100, 100, 20));
+					j.getAvion().Blesser(new Bullet("BallePerforante", 0, 0, 100, 100, 20));
 				}
 			}
 		}
 
-		for (Graphique graphiqueActuel : listeGraphiques) {
-			for (Ennemi ennemiActuel : listeEnnemis) {
+		for (Graphique graphiqueActuel : getListeGraphiques()) {
+			for (Ennemi ennemiActuel : getListeEnnemis()) {
 				// si il y a une collision entre un ennemi et un graphique present sur la map
 				if (graphiqueActuel.ColliDeRect(ennemiActuel) == true || ennemiActuel.ColliDeRect(graphiqueActuel) == true) {
 					if (graphiqueActuel instanceof BulletEnnemi) {
@@ -171,7 +166,7 @@ public class Carte {
 						// blesser l'ennemis
 						ennemiActuel.Blesser((Bullet) graphiqueActuel);
 						// Detruire le balle
-						graphiqueActuel.SetX(-500);
+						graphiqueActuel.setX(-500);
 
 					}
 				}
@@ -179,11 +174,63 @@ public class Carte {
 		}
 	}
 
-	public ListeDeJoueurs GetListeDeJoueurs() {
+	public ListeDeJoueurs getListeDeJoueurs() {
+		return getListeJoueurs();
+	}
+
+	public void ajouterJoueur(Joueur player) {
+		this.getListeJoueurs().ajouterJoueur(player);
+	}
+	
+    public int nombreDeJoueurs() {
+		return this.getListeJoueurs().getNombreDeConnecte();
+	}
+    
+	public Joueur getJoueur(int id) {
+		return this.getListeJoueurs().getJoueur(id);
+	}
+	
+	public ListeDeEnnemis GetListeDeEnnemis() {
+		return getListeEnnemis();
+	}
+
+	public ListeDeJoueurs getListeJoueurs() {
 		return listeJoueurs;
 	}
 
-	public ListeDeEnnemis GetListeDeEnnemis() {
+	public void setListeJoueurs(ListeDeJoueurs listeJoueurs) {
+		this.listeJoueurs = listeJoueurs;
+	}
+
+	public ListeDeGraphiques getListeGraphiques() {
+		return listeGraphiques;
+	}
+
+	public void setListeGraphiques(ListeDeGraphiques listeGraphiques) {
+		this.listeGraphiques = listeGraphiques;
+	}
+
+	public ListeDeEnnemis getListeEnnemis() {
 		return listeEnnemis;
+	}
+
+	public void setListeEnnemis(ListeDeEnnemis listeEnnemis) {
+		this.listeEnnemis = listeEnnemis;
+	}
+
+	public ListeDeExplosions getListeExplosions() {
+		return listeExplosions;
+	}
+
+	public void setListeExplosions(ListeDeExplosions listeExplosions) {
+		this.listeExplosions = listeExplosions;
+	}
+
+	public ListeDeBonus getListeBonus() {
+		return listeBonus;
+	}
+
+	public void setListeBonus(ListeDeBonus listeBonus) {
+		this.listeBonus = listeBonus;
 	}
 }

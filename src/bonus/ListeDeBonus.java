@@ -53,7 +53,7 @@ public class ListeDeBonus extends ArrayList<Bonus>{
 		// TODO Auto-generated method stub
 		for (Bonus b:this)
 		{
-			b.SetX(b.GetX()+x);
+			b.setX(b.GetX()+x);
 			b.SetY(b.GetY()+y);
 		}
 	}

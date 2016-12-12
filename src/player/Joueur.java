@@ -1,39 +1,49 @@
 package player;
+
 import airCraft.Avion;
-import car.Voiture;
 
 
 public class Joueur {
-    private static int increment = 0;
-    private final int id;
-    private final String pseudo;
-    private final Avion plane;
-    private int score=0;
-    public Joueur (String pseudo) 
-    {
-        id = ++increment;
+    private static int nombreDeConnecte  = 0;
+    
+    public  final static  int	  maximum = 3;    
+
+    private final  int    id;
+    private final  String pseudo;
+    private final  Avion  plane;
+    private        int    score   = 0;
+    
+    
+    public Joueur (String pseudo, String nomAvion) {
+        this.id = nombreDeConnecte++;
+        
         this.pseudo = pseudo;
-        this.plane=new Avion("MIG-51S",0,0,100,100);
+        this.plane = new Avion(nomAvion, 0, 0, 100, 100);
     }
     
-    public int GetScore ()
-    {
+    public int getScore () {
     	return score;
     }
     
-    public int getId() 
-    {
+    public int getId() {
         return this.id;
     }
-    
-    public Avion GetAvion()
-    {
+
+	public Avion getAvion() {
     	return this.plane;
     }
  
-    public double[] getPosition() 
-    {
-        double positions[] = {this.plane.GetX(), this.plane.GetY(), this.plane.getAngle()};
+    public String [] getEtat() {
+    	String x     = Integer.toString(this.plane.GetX());
+    	String y     = Integer.toString(this.plane.GetY());
+    	String angle = Double.toString(this.plane.getAngle());
+    			
+        String positions[] = {x, y, angle, this.getPseudo()};
+        
         return positions;
     }
+
+	public String getPseudo() {
+		return this.pseudo;
+	}
 }

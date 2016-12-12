@@ -24,7 +24,7 @@ public class ListeDeEnnemis extends ArrayList <Ennemi> {
 				graphique.put("nom", e.GetNom());
 				graphique.put("x", e.GetX());
 				graphique.put("y", e.GetY());
-				graphique.put("Vie", e.GetVie());
+				graphique.put("Vie", e.getVie());
 				positions.accumulate("Ennemis", graphique);
 			} catch (JSONException exc) {
 				exc.printStackTrace();
@@ -39,7 +39,7 @@ public class ListeDeEnnemis extends ArrayList <Ennemi> {
 
 		for (Iterator<	Ennemi> iterator = this.iterator(); iterator.hasNext(); ) {
 			Ennemi e = iterator.next();
-			if (e.GetVie()<=0 )
+			if (e.getVie()<=0 )
 			{
 				ldex.add(new Explosion("Explosion1",e.GetX(),e.GetY(),100,100));
 				iterator.remove();
@@ -63,7 +63,7 @@ public class ListeDeEnnemis extends ArrayList <Ennemi> {
 		// TODO Auto-generated method stub
 		for (Ennemi e :this)
 		{
-			e.SetX(e.GetX()+x);
+			e.setX(e.GetX()+x);
 			e.SetY(e.GetY()+y);
 		}
 		
