@@ -135,7 +135,7 @@ public class Carte {
 					// sil sagit d'une balle ennemis
 					if (graphiqueActuel instanceof BulletEnnemi) {
 						// blesser l'avion
-						joueursActuel.getAvion().Blesser((BulletEnnemi) graphiqueActuel);
+						joueursActuel.getAvion().blesser((BulletEnnemi) graphiqueActuel);
 						// Detruire le balle
 						graphiqueActuel.setX(-500);
 					}
@@ -148,8 +148,8 @@ public class Carte {
 				// en cas de collision entre un ennemi et un avion on detruit lennemi et on retire des point de vie a
 				// l'avion
 				if (ennemiActuel.ColliDeRect(j.getAvion()) == true) {
-					ennemiActuel.Blesser(new Bullet("DeathBullet", 0, 0, 100, 100, 20));
-					j.getAvion().Blesser(new Bullet("BallePerforante", 0, 0, 100, 100, 20));
+					ennemiActuel.blesser(new Bullet("DeathBullet", 0, 0, 100, 100, 20));
+					j.getAvion().blesser(new Bullet("BallePerforante", 0, 0, 100, 100, 20));
 				}
 			}
 		}
@@ -164,7 +164,7 @@ public class Carte {
 					// sil sagit d'une balle
 					else if (graphiqueActuel instanceof Bullet) {
 						// blesser l'ennemis
-						ennemiActuel.Blesser((Bullet) graphiqueActuel);
+						ennemiActuel.blesser((Bullet) graphiqueActuel);
 						// Detruire le balle
 						graphiqueActuel.setX(-500);
 

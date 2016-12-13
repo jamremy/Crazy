@@ -13,9 +13,9 @@ public class Test {
 	}
 	
 	public static void main(String[] args) {
-		Joueur player1 = new Joueur("player1");
-		Joueur player2 = new Joueur("player2");
-		Joueur player3 = new Joueur("player3");
+		Joueur player1 = new Joueur("player1", null);
+		Joueur player2 = new Joueur("player2", null);
+		Joueur player3 = new Joueur("player3", null);
 		
 		ListeDeJoueurs ldj = new ListeDeJoueurs();
 		ldj.ajouterJoueur(player1);

@@ -106,23 +106,26 @@ public class nefertiti extends HttpServlet {
 	        	
 	        	if (sens.compareTo("avancer") == 0) {	
 	        		this.joueur.getAvion().avancer();
+	        		System.out.print("Avancer : ");
 	        		
 	        	} else if (sens.compareTo("reculer") == 0) {	
 	        		this.joueur.getAvion().reculer();
+	        		System.out.print("Reculer : ");
 	        		
-	        	} else if (sens.compareTo("libre") == 0) {	
-	        	
 	        	}
-	        	
 	        	if (angle.compareTo("gauche") == 0) {
 	        		this.joueur.getAvion().tournerGauche();
+	        		System.out.print("Gauche : ");
 	        		
 	        	} else if (angle.compareTo("droite") == 0) {	
 	        		this.joueur.getAvion().tournerDroite();
+	        		System.out.print("Droite : ");
 	        	}
 	        	
-	        	System.out.println("x : " + this.joueur.getEtat()[0] + " y : " + this.joueur.getEtat()[1] + 
-	        					   " angle : " + this.joueur.getEtat()[2] + " pseudo : " +  this.joueur.getEtat()[3]);
+	        	System.out.println("x : " + this.joueur.getEtat()[0] + 
+	        					   " y : " + this.joueur.getEtat()[1] + 
+	        					   " angle : " + this.joueur.getEtat()[2] + 
+	        					   " pseudo : " +  this.joueur.getEtat()[3]);
 	        	
 	        	this.ajouterMsgErreur("-1", "retour,id,requete", "OK", "" + this.joueur.getId(), requete);
 	        	

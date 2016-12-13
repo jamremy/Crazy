@@ -23,24 +23,30 @@ public class Avion extends Graphique {
 		
 		this.SetAngle(0);
 
-		if ((nomAvion == null) || nomAvion.equals("MIG-51S")) { // L'avion par defaut
+		System.out.println("Creation de l'avion : " + nomAvion);
+		if ((nomAvion == null) || nomAvion.equals("Su-55") || nomAvion.equals("0")) { // L'avion par defaut
 			this.vie     = 1000;
 			this.vitesse = 10;
 			this.attaque = 15;
 			this.defense = 30;
 			
-		} else if (nomAvion.equals("Su-55")) {
+		} else if (nomAvion.equals("MIG-51S") || nomAvion.equals("2")) {
 			this.vie     = 1000;
 			this.vitesse = 10;
 			this.attaque = 15;
 			this.defense = 30;
 			
-		} else if (nomAvion.equals("Su-37K")) {
+		} else if (nomAvion.equals("Su-37K")|| nomAvion.equals("1")) {
 			this.vie     = 1000;
 			this.vitesse = 10;
 			this.attaque = 15;
 			this.defense = 30;
 		}
+		
+		System.out.print("Vie     : " + this.vie     + "\n" +
+						 "Vitesse : " + this.vitesse + "\n" +
+						 "Attaque : " + this.attaque + "\n" +
+						 "Defense : " + this.defense + "\n");
 	}
 
 	public ListeDeBonus GetMesBonus() {
@@ -77,24 +83,11 @@ public class Avion extends Graphique {
 		this.SetAngle(this.getAngle() - ANGLE);
 	}
 
-	public void Blesser(Bullet balle) {
-		if (this.listeDeBonus.size() != 0) {
-			if (this.listeDeBonus.get(0).GetNom().compareTo("Bouclier") != 0) {
-				this.SetVie(this.getVie() - balle.GetDegat());
-			}
-		} else {
-			this.SetVie(this.getVie() - balle.GetDegat());
-		}
-
-		if (balle.GetNom().compareTo("DeathBullet") == 0) {
-			this.vie = 0;
-		}
-	}
-
 	public void avancer() {
 		int new_x = this.GetX() + (int) (vitesse * Math.cos(this.getAngle() * Math.PI / 180));
 		int new_y = this.GetY() + (int) (vitesse * Math.sin(this.getAngle() * Math.PI / 180));
 
+		System.out.println("New x : " + new_x + "\n" + "New y : " + new_y + "\n");
 		if (new_x > 0 && new_x < 600) {
 			this.setX(new_x);
 		}
@@ -104,6 +97,18 @@ public class Avion extends Graphique {
 		}
 	}
 
+	public void reculer() {
+		int new_x = this.GetX() - (int) (vitesse * Math.cos(this.getAngle() * Math.PI / 180));
+		int new_y = this.GetY() - (int) (vitesse * Math.sin(this.getAngle() * Math.PI / 180));
+
+		if (new_x > 0 && new_x < 600) {
+			this.setX(new_x);
+		}
+		if (new_y > 0 && new_y < 700) {
+			this.SetY(new_y);
+		}
+	}
+	
 	public void actualiser() {	
 		for (Iterator<Bonus> iterator = listeDeBonus.iterator(); iterator.hasNext();) {
 			Bonus bonusActuel = iterator.next();
@@ -124,6 +129,20 @@ public class Avion extends Graphique {
 		}
 	}
 
+	public void blesser(Bullet balle) {
+		if (this.listeDeBonus.size() != 0) {
+			if (this.listeDeBonus.get(0).GetNom().compareTo("Bouclier") != 0) {
+				this.SetVie(this.getVie() - balle.GetDegat());
+			}
+		} else {
+			this.SetVie(this.getVie() - balle.GetDegat());
+		}
+
+		if (balle.GetNom().compareTo("DeathBullet") == 0) {
+			this.vie = 0;
+		}
+	}
+	
 	public void tirer(ListeDeGraphiques listeDeGraphiques) {
 		if (this.listeDeBonus.size() != 0) {
 			for (Bonus bonusActuel : listeDeBonus) {
@@ -139,6 +158,7 @@ public class Avion extends Graphique {
 							this.getAngle()));
 					
 					bonusActuel.use();
+					
 				} else if (bonusActuel.GetNom().compareTo("BallePerforante") == 0) {
 					listeDeGraphiques.add(new Bullet("BallePerforante", this.GetX(), this.GetY(), 21, 21, this.getAngle()));
 					bonusActuel.use();
@@ -146,20 +166,9 @@ public class Avion extends Graphique {
 					listeDeGraphiques.add(new Bullet("Bullet", this.GetX(), this.GetY(), 21, 21, this.getAngle()));
 				}
 			}
+			
 		} else {
 			listeDeGraphiques.add(new Bullet("Bullet", this.GetX(), this.GetY(), 21, 21, this.getAngle()));
-		}
-	}
-
-	public void reculer() {
-		int new_x = this.GetX() - (int) (vitesse * Math.cos(this.getAngle() * Math.PI / 180));
-		int new_y = this.GetY() - (int) (vitesse * Math.sin(this.getAngle() * Math.PI / 180));
-
-		if (new_x > 0 && new_x < 600) {
-			this.setX(new_x);
-		}
-		if (new_y > 0 && new_y < 700) {
-			this.SetY(new_y);
 		}
 	}
 }

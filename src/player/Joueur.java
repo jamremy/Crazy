@@ -6,7 +6,7 @@ import airCraft.Avion;
 public class Joueur {
     private static int nombreDeConnecte  = 0;
     
-    public  final static  int	  maximum = 3;    
+    public  final static  int	  maximum = 1000;    
 
     private final  int    id;
     private final  String pseudo;
