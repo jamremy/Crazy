@@ -1,3 +1,5 @@
+
+
 package carte;
 
 import java.util.ArrayList;
@@ -15,7 +17,8 @@ public class ListeDeGraphiques extends ArrayList<Graphique> {
 		JSONObject positions = new JSONObject();
 		for(Graphique g : this) {
 			JSONObject graphique = new JSONObject();
-			
+			if (g.GetX()>0 && g.GetX()<700)
+			{
 			try {
 				graphique.put("id", g.GetId());
 				graphique.put("nom", g.GetNom());
@@ -24,6 +27,7 @@ public class ListeDeGraphiques extends ArrayList<Graphique> {
 				positions.accumulate("Graphique", graphique);
 			} catch (JSONException e) {
 				e.printStackTrace();
+			}
 			}
 		}
 		return positions;
