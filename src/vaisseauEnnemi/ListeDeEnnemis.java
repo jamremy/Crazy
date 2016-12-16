@@ -7,9 +7,9 @@ import java.util.Random;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import airCraft.Bullet;
 import carte.Graphique;
 import carte.ListeDeGraphiques;
+import airCraft.Bullet;
 import explosion.ListeDeExplosions;
 import explosion.Explosion;
 
@@ -17,6 +17,8 @@ public class ListeDeEnnemis extends ArrayList <Ennemi> {
 	public JSONObject allPositions() {
 		JSONObject positions = new JSONObject();
 		for(Ennemi e : this) {
+			if (e.GetX()>0 && e.GetX()<700)
+			{
 			JSONObject graphique = new JSONObject();
 			
 			try {
@@ -28,6 +30,7 @@ public class ListeDeEnnemis extends ArrayList <Ennemi> {
 				positions.accumulate("Ennemis", graphique);
 			} catch (JSONException exc) {
 				exc.printStackTrace();
+			}
 			}
 		}
 		return positions;
