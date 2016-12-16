@@ -54,7 +54,7 @@ public class Carte {
 		}
 		// Creation des graphiques associes a la carte
 		for (i = 0; i < BufferMap.length; i++) {
-			for (int j = 0; j < BufferMap[i].length - 900; j++) {				
+			for (int j = 0; j < BufferMap[i].length ; j++) {				
 				if (BufferMap[i][j] != 'A') {
 					if (BufferMap[i][j] == 'B') {
 						this.getListeEnnemis().add(new Ennemi("ennemi1", i * -80, j * 80, 100, 100));
