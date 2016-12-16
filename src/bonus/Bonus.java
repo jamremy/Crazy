@@ -1,6 +1,6 @@
 package bonus;
 
-import base.Graphique;
+import carte.Graphique;
 
 public class Bonus extends Graphique {
 	private int Duree;

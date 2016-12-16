@@ -2,7 +2,7 @@ package vaisseauEnnemi;
 
 import airCraft.Avion;
 import airCraft.Bullet;
-import base.ListeDeGraphiques;
+import carte.ListeDeGraphiques;
 
 public class Ennemi extends Avion{
 
@@ -10,19 +10,19 @@ public class Ennemi extends Avion{
 		super(Nom, x, y, width, height);
 		if (Nom.compareTo("ennemi1")==0)
 		{
-			this.SetVie(30);
-			this.SetAttaque(20);
-			this.SetDefense(10);
-			this.SetVitesse(10);
+			this.setVie(30);
+			this.setAttaque(20);
+			this.setDefense(10);
+			this.setVitesse(10);
 			this.SetFrequenceActualisation(3000);
 			
 		}
 		else if (Nom.compareTo("ennemi2")==0)
 		{
-			this.SetVie(30);
-			this.SetAttaque(20);
-			this.SetDefense(10);
-			this.SetVitesse(10);
+			this.setVie(30);
+			this.setAttaque(20);
+			this.setDefense(10);
+			this.setVitesse(10);
 		} 
 		
 		

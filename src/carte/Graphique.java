@@ -1,4 +1,4 @@
-package base;
+package carte;
 
 public class Graphique {
 	private static int increment = 0;
@@ -53,7 +53,7 @@ public class Graphique {
 		return angle;
 	}
 
-	public void SetAngle(double angle) {
+	public void setAngle(double angle) {
 		this.angle = angle;
 	}
 

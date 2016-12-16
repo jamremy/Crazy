@@ -8,8 +8,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import airCraft.Bullet;
-import base.Graphique;
-import base.ListeDeGraphiques;
+import carte.Graphique;
+import carte.ListeDeGraphiques;
 import explosion.ListeDeExplosions;
 import explosion.Explosion;
 

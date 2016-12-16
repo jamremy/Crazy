@@ -1,6 +1,6 @@
 package airCraft;
 
-import base.Graphique;
+import carte.Graphique;
 
 public class Bullet extends Graphique {
 	private int degats;
@@ -10,7 +10,7 @@ public class Bullet extends Graphique {
 		super(nom, x, y, width, heigth);
 		this.vitesse=10;
 		this.degats=5;
-		this.SetAngle(angle);
+		this.setAngle(angle);
 		this.SetFrequenceActualisation(10);
 		if (nom.compareTo("BallePerforante")==0)
 		{

@@ -2,14 +2,16 @@ package airCraft;
 
 import java.util.Iterator;
 
-import base.Graphique;
-import base.ListeDeGraphiques;
 import bonus.Bonus;
 import bonus.ListeDeBonus;
+import carte.Graphique;
+import carte.ListeDeGraphiques;
 
 public class Avion extends Graphique {
 	public static final double ANGLE = 2;
-
+	public static final int LARGEUR = 1300;
+	public static final int HAUTEUR = 700;
+	
 	private ListeDeBonus listeDeBonus = new ListeDeBonus();
 
 	private double vitesse = 0.0;
@@ -21,7 +23,7 @@ public class Avion extends Graphique {
 	public Avion(String nomAvion, int x, int y, int width, int height) {
 		super(nomAvion, x, y, width, height);
 		
-		this.SetAngle(0);
+		this.setAngle(0);
 
 		System.out.println("Creation de l'avion : " + nomAvion);
 		if ((nomAvion == null) || nomAvion.equals("Su-55") || nomAvion.equals("0")) { // L'avion par defaut
@@ -49,29 +51,29 @@ public class Avion extends Graphique {
 						 "Defense : " + this.defense + "\n");
 	}
 
-	public ListeDeBonus GetMesBonus() {
+	public ListeDeBonus getMesBonus() {
 		return listeDeBonus;
 	}
 
 	public void tournerGauche() {
 
-		this.SetAngle(this.getAngle() + ANGLE);
+		this.setAngle(this.getAngle() + Avion.ANGLE);
 
 	}
 
-	public void SetVie(double vie) {
+	public void setVie(double vie) {
 		this.vie = vie;
 	}
 
-	public void SetAttaque(int attaque) {
+	public void setAttaque(int attaque) {
 		this.attaque = attaque;
 	}
 
-	public void SetDefense(int defense) {
+	public void setDefense(int defense) {
 		this.defense = defense;
 	}
 
-	public void SetVitesse(double vitesse) {
+	public void setVitesse(double vitesse) {
 		this.vitesse = vitesse;
 	}
 
@@ -80,7 +82,7 @@ public class Avion extends Graphique {
 	}
 
 	public void tournerDroite() {
-		this.SetAngle(this.getAngle() - ANGLE);
+		this.setAngle(this.getAngle() - Avion.ANGLE);
 	}
 
 	public void avancer() {
@@ -88,11 +90,11 @@ public class Avion extends Graphique {
 		int new_y = this.GetY() + (int) (vitesse * Math.sin(this.getAngle() * Math.PI / 180));
 
 		System.out.println("New x : " + new_x + "\n" + "New y : " + new_y + "\n");
-		if (new_x > 0 && new_x < 600) {
+		if (new_x > 0 && new_x < Avion.HAUTEUR) {
 			this.setX(new_x);
 		}
 
-		if (new_y > 0 && new_y < 700) {
+		if (new_y > 0 && new_y < Avion.LARGEUR) {
 			this.SetY(new_y);
 		}
 	}
@@ -101,10 +103,10 @@ public class Avion extends Graphique {
 		int new_x = this.GetX() - (int) (vitesse * Math.cos(this.getAngle() * Math.PI / 180));
 		int new_y = this.GetY() - (int) (vitesse * Math.sin(this.getAngle() * Math.PI / 180));
 
-		if (new_x > 0 && new_x < 600) {
+		if (new_x > 0 && new_x < Avion.HAUTEUR) {
 			this.setX(new_x);
 		}
-		if (new_y > 0 && new_y < 700) {
+		if (new_y > 0 && new_y < Avion.LARGEUR) {
 			this.SetY(new_y);
 		}
 	}
@@ -124,7 +126,6 @@ public class Avion extends Graphique {
 				} else if (bonusActuel.GetNom().compareTo("Bouclier") == 0) {
 					bonusActuel.use();
 				}
-
 			}
 		}
 	}
@@ -132,10 +133,10 @@ public class Avion extends Graphique {
 	public void blesser(Bullet balle) {
 		if (this.listeDeBonus.size() != 0) {
 			if (this.listeDeBonus.get(0).GetNom().compareTo("Bouclier") != 0) {
-				this.SetVie(this.getVie() - balle.GetDegat());
+				this.setVie(this.getVie() - balle.GetDegat());
 			}
 		} else {
-			this.SetVie(this.getVie() - balle.GetDegat());
+			this.setVie(this.getVie() - balle.GetDegat());
 		}
 
 		if (balle.GetNom().compareTo("DeathBullet") == 0) {

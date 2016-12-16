@@ -62,7 +62,7 @@ public class ListeDeJoueurs {
 
 	public JSONObject allPositions() {
 		JSONObject conteneur = new JSONObject();
-		JSONObject colis     = new JSONObject();
+		JSONObject contenu     = new JSONObject();
 		
 		for(Joueur j : this.liste) {
 			JSONObject joueur  = new JSONObject();
@@ -78,7 +78,7 @@ public class ListeDeJoueurs {
 				joueur.put("pseudo", j.getPseudo());
 				
 				// On met les objets dans le colis
-				colis.accumulate(Integer.toString(j.getId()), joueur);
+				contenu.accumulate(Integer.toString(j.getId()), joueur);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -86,7 +86,7 @@ public class ListeDeJoueurs {
 		
 		try {
 			// On met le colis dans le conteneur
-			conteneur.accumulate("Joueur", colis);
+			conteneur.accumulate("Joueur", contenu);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

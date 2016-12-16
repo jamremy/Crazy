@@ -1,6 +1,6 @@
 import com.sun.glass.ui.Application;
 
-import base.Carte;
+import carte.Carte;
 import player.Joueur;
 import player.ListeDeJoueurs;
 

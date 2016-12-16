@@ -1,4 +1,4 @@
-package base;
+package carte;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -25,6 +25,8 @@ public class Carte {
 	long                      TimeLastActualisation = 0;
 	char                      BufferMap[][]         = new char[1000][];
 
+	int frequence_actualisation = 50;
+	
 	public Carte(String cheminCarte) {
 		int i = 0;
 		
@@ -52,7 +54,7 @@ public class Carte {
 		}
 		// Creation des graphiques associes a la carte
 		for (i = 0; i < BufferMap.length; i++) {
-			for (int j = 0; j < BufferMap[i].length; j++) {				
+			for (int j = 0; j < BufferMap[i].length - 900; j++) {				
 				if (BufferMap[i][j] != 'A') {
 					if (BufferMap[i][j] == 'B') {
 						this.getListeEnnemis().add(new Ennemi("ennemi1", i * -80, j * 80, 100, 100));
@@ -79,7 +81,7 @@ public class Carte {
 
 	// Actualise la liste de graphique prśent sur la map
 	public void Actualiser(long time) {
-		if (Math.abs(time - TimeLastActualisation) > 50) {
+		if (Math.abs(time - TimeLastActualisation) > this.frequence_actualisation) {
 			getListeEnnemis().move_all(5, 0);
 			getListeBonus().move_all(5, 0);
 			TimeLastActualisation = time;
@@ -122,7 +124,7 @@ public class Carte {
 			for (Joueur j : getListeJoueurs().getListeJoueur()) {
 				// en cas de collision entre un avion et un bonus on affecte ce bonus a la liste des bonus de l'avion
 				if (bonusActuel.ColliDeRect(j.getAvion()) == true) {
-					j.getAvion().GetMesBonus().add(bonusActuel);
+					j.getAvion().getMesBonus().add(bonusActuel);
 					bonusActuel.Set_DejaUtilise(true);
 				}
 			}

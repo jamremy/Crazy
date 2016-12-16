@@ -1,6 +1,6 @@
 package explosion;
 
-import base.Graphique;
+import carte.Graphique;
 
 public class Explosion extends Graphique{
 
