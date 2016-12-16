@@ -1,3 +1,4 @@
+
 package bonus;
 
 import java.util.ArrayList;
@@ -6,8 +7,8 @@ import java.util.Iterator;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import airCraft.Bullet;
 import carte.Graphique;
+import airCraft.Bullet;
 import vaisseauEnnemi.BulletEnnemi;
 import vaisseauEnnemi.Ennemi;
 
@@ -18,7 +19,8 @@ public class ListeDeBonus extends ArrayList<Bonus>{
 		JSONObject positions = new JSONObject();
 		for(Graphique g : this) {
 			JSONObject graphique = new JSONObject();
-			
+			if (g.GetX()>0 && g.GetX()<800)
+			{
 			try {
 				graphique.put("id", g.GetId());
 				graphique.put("nom", g.GetNom());
@@ -27,6 +29,7 @@ public class ListeDeBonus extends ArrayList<Bonus>{
 				positions.accumulate("Bonus", graphique);
 			} catch (JSONException e) {
 				e.printStackTrace();
+			}
 			}
 		}
 		return positions;
