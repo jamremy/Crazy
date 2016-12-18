@@ -1,6 +1,4 @@
-
-
-package carte;
+ package carte;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -40,7 +38,7 @@ public class ListeDeGraphiques extends ArrayList<Graphique> {
 			Graphique g = iterator.next();
 			//si une balle est en dehors de l'ecran alors suppression de celle-ci 
 		
-			if (g.GetX()<0 ||g.GetX()<0 || g.GetX()>800 || g.GetY()>800 )
+			if (g.GetX()<0 ||g.GetX()<0 || g.GetX()>800 || g.GetY()>1200 )
 			{
 				if (g instanceof Bullet)
 				{
