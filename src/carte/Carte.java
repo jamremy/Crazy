@@ -23,6 +23,8 @@ public class Carte {
 	private ListeDeExplosions listeExplosions       = new ListeDeExplosions();
 	private ListeDeBonus      listeBonus            = new ListeDeBonus();
 	long                      TimeLastActualisation = 0;
+	private int nb_ennemi_possible=3;
+	private int nb_bonus_possible=3;
 	private float 			  proba_bonus=1f/1000f;
 	private float 			  proba_monstre=1f/15f;
 
@@ -90,7 +92,7 @@ public class Carte {
 			double alea=Math.random();
 			if (alea<proba_bonus)
 			{
-				int bonus=(int)(Math.random()*2);
+				int bonus=(int)(Math.random()*nb_bonus_possible);
 				if (bonus==0)
 				{
 				this.getListeBonus().add(new Bonus("Sante",  -100, (int)( Math.random()*1000), 100, 100));
@@ -108,7 +110,7 @@ public class Carte {
 				}
 			else if (alea<proba_monstre)
 			{
-				int bonus=(int)(Math.random()*2);
+				int bonus=(int)(Math.random()*nb_ennemi_possible);
 				if (bonus==0)
 				{
 				this.getListeEnnemis().add(new Ennemi("ennemi1", -100,(int)( Math.random()*1000), 100, 100));
