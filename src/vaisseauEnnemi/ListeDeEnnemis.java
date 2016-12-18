@@ -50,6 +50,10 @@ public class ListeDeEnnemis extends ArrayList <Ennemi> {
 				//e.SetX(-5000);
 				//this.add( new Ennemi("ennemi1", (int) (Math.random() * ( 800 )), (int) (Math.random() * ( 800 )), 100, 100));
 			}
+			else if ( e.GetX()>800 || e.GetY()>1200 )
+			{
+				iterator.remove();
+			}
 			else 
 			{
 				//S'il est temps d'actualiser l
