@@ -23,6 +23,11 @@ public class Carte {
 	private ListeDeExplosions listeExplosions       = new ListeDeExplosions();
 	private ListeDeBonus      listeBonus            = new ListeDeBonus();
 	long                      TimeLastActualisation = 0;
+	private float 			  proba_bonus=1f/300f;
+	private float 			  proba_monstre=1f/15f;
+
+	
+	
 	char                      BufferMap[][]         = new char[1000][];
 
 	int frequence_actualisation = 50;
@@ -82,6 +87,43 @@ public class Carte {
 	// Actualise la liste de graphique prśent sur la map
 	public void Actualiser(long time) {
 		if (Math.abs(time - TimeLastActualisation) > this.frequence_actualisation) {
+			double alea=Math.random();
+			if (alea<proba_bonus)
+			{
+				int bonus=(int)Math.random()*3;
+				if (bonus==0)
+				{
+				this.getListeBonus().add(new Bonus("Sante",  -100, (int)( Math.random()*1000), 100, 100));
+				}
+				else if (bonus==1)
+				{
+					this.getListeBonus().add(new Bonus("Bouclier",  -100, (int)( Math.random()*1000), 100, 100));
+					
+				}
+				else if (bonus==2)
+				{
+					this.getListeBonus().add(new Bonus("Ballefoistrois",  -100, (int)( Math.random()*1000), 100, 100));
+					
+				}
+				}
+			else if (alea<proba_monstre)
+			{
+				int bonus=(int)Math.random()*2;
+				if (bonus==0)
+				{
+				this.getListeEnnemis().add(new Ennemi("ennemi1", -100,(int)( Math.random()*1000), 100, 100));
+				}
+				else if (bonus==1)
+				{
+					this.getListeEnnemis().add(new Ennemi("ennemi2", -100,(int)( Math.random()*1000), 100, 100));
+					
+				}
+				else if (bonus==2)
+				{
+					this.getListeEnnemis().add(new Ennemi("ennemi3", -100,(int)( Math.random()*1000), 100, 100));
+					
+				}
+			}
 			getListeEnnemis().move_all(5, 0);
 			getListeBonus().move_all(5, 0);
 			TimeLastActualisation = time;
@@ -124,7 +166,7 @@ public class Carte {
 			for (Joueur j : getListeJoueurs().getListeJoueur()) {
 				// en cas de collision entre un avion et un bonus on affecte ce bonus a la liste des bonus de l'avion
 				if (bonusActuel.ColliDeRect(j.getAvion()) == true) {
-					j.getAvion().getMesBonus().add(bonusActuel);
+					j.getAvion().GetMesBonus().add(bonusActuel);
 					bonusActuel.Set_DejaUtilise(true);
 				}
 			}
@@ -137,7 +179,7 @@ public class Carte {
 					// sil sagit d'une balle ennemis
 					if (graphiqueActuel instanceof BulletEnnemi) {
 						// blesser l'avion
-						joueursActuel.getAvion().blesser((BulletEnnemi) graphiqueActuel);
+						joueursActuel.getAvion().Blesser((BulletEnnemi) graphiqueActuel);
 						// Detruire le balle
 						graphiqueActuel.setX(-500);
 					}
@@ -150,8 +192,8 @@ public class Carte {
 				// en cas de collision entre un ennemi et un avion on detruit lennemi et on retire des point de vie a
 				// l'avion
 				if (ennemiActuel.ColliDeRect(j.getAvion()) == true) {
-					ennemiActuel.blesser(new Bullet("DeathBullet", 0, 0, 100, 100, 20));
-					j.getAvion().blesser(new Bullet("BallePerforante", 0, 0, 100, 100, 20));
+					ennemiActuel.Blesser(new Bullet("DeathBullet", 0, 0, 100, 100, 20,j.getAvion()));
+					j.getAvion().Blesser(new Bullet("BallePerforante", 0, 0, 100, 100, 20,ennemiActuel));
 				}
 			}
 		}
@@ -166,7 +208,7 @@ public class Carte {
 					// sil sagit d'une balle
 					else if (graphiqueActuel instanceof Bullet) {
 						// blesser l'ennemis
-						ennemiActuel.blesser((Bullet) graphiqueActuel);
+						ennemiActuel.Blesser((Bullet) graphiqueActuel);
 						// Detruire le balle
 						graphiqueActuel.setX(-500);
 
