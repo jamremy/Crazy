@@ -1,16 +1,16 @@
-package airCraft;
 
 import carte.Graphique;
 
 public class Bullet extends Graphique {
 	private int degats;
 	private int vitesse;
-	
-	public Bullet(String nom, int x, int y, int width, int heigth,double angle) {
+	private Avion tireur;
+	public Bullet(String nom, int x, int y, int width, int heigth,double angle,Avion tireur) {
 		super(nom, x, y, width, heigth);
 		this.vitesse=10;
 		this.degats=5;
-		this.setAngle(angle);
+		this.tireur=tireur;
+		this.SetAngle(angle);
 		this.SetFrequenceActualisation(10);
 		if (nom.compareTo("BallePerforante")==0)
 		{
@@ -20,6 +20,10 @@ public class Bullet extends Graphique {
 		{
 			this.degats=1000000;
 		}
+	}
+	public Avion GetTireur()
+	{
+		return this.tireur;
 	}
 	
 	public  void SetDegats(int degats)
@@ -52,3 +56,4 @@ public class Bullet extends Graphique {
 	}
 
 }
+
