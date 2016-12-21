@@ -73,7 +73,7 @@ public class ListeDeJoueurs {
 				joueur.put("x", infos[0]);
 				joueur.put("y", infos[1]);
 				joueur.put("vie", j.getAvion().getVie());
-				joueur.put("score", j.getScore());
+				joueur.put("score", j.getAvion().getScore());
 				joueur.put("angle", infos[2]);
 				joueur.put("pseudo", j.getPseudo());
 				joueur.put("idavion", j.getAvion().getNom());
