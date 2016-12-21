@@ -8,7 +8,7 @@ public class Explosion extends Graphique{
 	private int NbImage; //Nombre d'image  que 
 	public Explosion(String nom, int x, int y, int width, int height) {
 		super(nom, x, y, width, height);
-		this.SetFrequenceActualisation(100);
+		this.setFrequenceActualisation(100);
 		if (nom.compareTo("Explosion1")==0)
 		{
 			this.NbImage=31;
@@ -32,7 +32,7 @@ public class Explosion extends Graphique{
 		{
 			this.NumImage+=1;
 		}
-			this.SetTimeLastActualisation(time);
+			this.setTimeLastActualisation(time);
 		
 	}
 	

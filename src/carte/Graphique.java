@@ -25,27 +25,27 @@ public class Graphique {
 		this.id = ++increment;
 	}
 
-	public long GetTimeLastActualisation() {
+	public long getTimeLastActualisation() {
 		return this.TimeLastActualisation;
 	}
 
-	public void SetFrequenceActualisation(long time) {
+	public void setFrequenceActualisation(long time) {
 		this.FrequenceActualisation = time;
 	}
 
-	public long GetFrequenceActualisation() {
+	public long getFrequenceActualisation() {
 		return this.FrequenceActualisation;
 	}
 
-	public void SetTimeLastActualisation(long time) {
+	public void setTimeLastActualisation(long time) {
 		this.TimeLastActualisation = time;
 	}
 
-	public String GetType() {
+	public String getType() {
 		return this.type;
 	}
 
-	public void SetType(String type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 
@@ -57,11 +57,11 @@ public class Graphique {
 		this.angle = angle;
 	}
 
-	public String GetNom() {
+	public String getNom() {
 		return nom;
 	}
 
-	public int GetId() {
+	public int getId() {
 		return id;
 	}
 
@@ -69,19 +69,19 @@ public class Graphique {
 		this.x = x;
 	}
 
-	public void SetY(int y) {
+	public void setY(int y) {
 		this.y = y;
 	}
 
-	public int GetX() {
+	public int getX() {
 		return x;
 	}
 
-	public int GetY() {
+	public int getY() {
 		return y;
 	}
 
-	public boolean ColliDeRect(Graphique g) {
+	public boolean detectCollision(Graphique g) {
 
 		if ((g.x >= x + width) // trop à droite
 				|| (g.x + g.width <= x) || (g.y >= y + height) // trop à droite

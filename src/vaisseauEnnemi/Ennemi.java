@@ -2,82 +2,64 @@ package vaisseauEnnemi;
 
 import carte.ListeDeGraphiques;
 import airCraft.Avion;
-import airCraft.Bullet;
 
-public class Ennemi extends Avion{
+public class Ennemi extends Avion {
+	public Ennemi(String nom, int x, int y, int width, int height) {
+		super(nom, x, y, width, height);
 
-	public Ennemi(String Nom, int x, int y, int width, int height) {
-		super(Nom, x, y, width, height);
-		if (Nom.compareTo("ennemi1")==0)
-		{
-			this.SetVie(30);
-			this.SetAttaque(20);
-			this.SetDefense(10);
-			this.SetVitesse(10);
-			this.SetScore(50);
-			this.SetFrequenceActualisation(3000);
-			
-		}
-		else if (Nom.compareTo("ennemi2")==0)
-		{
-			this.SetVie(150);
-			this.SetAttaque(20);
-			this.SetDefense(10);
-			this.SetScore(70);
-			this.SetVitesse(20);
-			this.SetFrequenceActualisation(3000);
-		} 
-		else if (Nom.compareTo("ennemi3")==0)
-		{
-			this.SetVie(300);
-			this.SetAttaque(20);
-			this.SetDefense(10);
-			this.SetScore(30);
-			this.SetVitesse(10);
-			this.SetFrequenceActualisation(3000);
-		}  
-		else if (Nom.compareTo("ennemi4")==0)
-		{
-			this.SetVie(30);
-			this.SetAttaque(20);
-			this.SetScore(100);
-			this.SetDefense(10);
-			this.SetVitesse(10);
-		} 
-		
-		
-		
-		// TODO Auto-generated constructor stub
-	}
-	
-	
-	public void tirer(ListeDeGraphiques ldg)
-	{
-		
-		//Definition d'un comportement  de tire pour lennemi1
-		if (this.GetNom().compareTo("ennemi1")==0)
-		{
-		ldg.add(new BulletEnnemi(this.GetX(),this.GetY(),-180));
-		ldg.add(new BulletEnnemi(this.GetX(),this.GetY(),-90));
-		//ldg.add(new BulletEnnemi(this.GetX(),this.GetY(),-45));
-		}
-		//Definition d'un comportement  de tire pour lennemi2
-		else if (this.GetNom().compareTo("ennemi2")==0)
-		{
-			ldg.add(new BulletEnnemi(this.GetX(),this.GetY(),+90));
-			ldg.add(new BulletEnnemi(this.GetX(),this.GetY(),-90));
-		}
-		else if (this.GetNom().compareTo("ennemi3")==0)
-		{
-			ldg.add(new BulletEnnemi(this.GetX(),this.GetY(),-70));
-			ldg.add(new BulletEnnemi(this.GetX(),this.GetY(),+70));
+		if (nom.compareTo("ennemi1") == 0) {
+			this.setVie(30);
+			this.setAttaque(20);
+			this.setDefense(10);
+			this.setVitesse(10);
+			this.setScore(50);
+			this.setFrequenceActualisation(3000);
+
+		} else if (nom.compareTo("ennemi2") == 0) {
+			this.setVie(150);
+			this.setAttaque(20);
+			this.setDefense(10);
+			this.setScore(70);
+			this.setVitesse(20);
+			this.setFrequenceActualisation(3000);
+
+		} else if (nom.compareTo("ennemi3") == 0) {
+			this.setVie(300);
+			this.setAttaque(20);
+			this.setDefense(10);
+			this.setScore(30);
+			this.setVitesse(10);
+			this.setFrequenceActualisation(3000);
+
+		} else if (nom.compareTo("ennemi4") == 0) {
+			this.setVie(30);
+			this.setAttaque(20);
+			this.setScore(100);
+			this.setDefense(10);
+			this.setVitesse(10);
 		}
 	}
-	
-	public void Actualiser(long time,ListeDeGraphiques ldg)
-	{
-				this.tirer(ldg);
-				this.SetTimeLastActualisation(time);	
+
+	public void tirer(ListeDeGraphiques listeDeGraphiques) {
+
+		// Definition d'un comportement de tire pour lennemi1
+		if (this.getNom().compareTo("ennemi1") == 0) {
+			listeDeGraphiques.add(new BulletEnnemi(this.getX(), this.getY(), -180, this));
+			listeDeGraphiques.add(new BulletEnnemi(this.getX(), this.getY(), -90, this));
+		}
+		// Definition d'un comportement de tire pour lennemi2
+		else if (this.getNom().compareTo("ennemi2") == 0) {
+			listeDeGraphiques.add(new BulletEnnemi(this.getX(), this.getY(), +90, this));
+			listeDeGraphiques.add(new BulletEnnemi(this.getX(), this.getY(), -90, this));
+
+		} else if (this.getNom().compareTo("ennemi3") == 0) {
+			listeDeGraphiques.add(new BulletEnnemi(this.getX(), this.getY(), -70, this));
+			listeDeGraphiques.add(new BulletEnnemi(this.getX(), this.getY(), +70, this));
+		}
 	}
 
+	public void actualiser(long time, ListeDeGraphiques listeDeGraphiques) {
+		this.tirer(listeDeGraphiques);
+		this.setTimeLastActualisation(time);
+	}
 }

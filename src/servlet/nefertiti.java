@@ -62,8 +62,8 @@ public class nefertiti extends HttpServlet {
 	    long time = System.currentTimeMillis();
 	    
 	    // Verification des evenements qui serait survenu.
-	    this.carteActuel.DetectCollision(); // Verifie s'il n'y a eu aucune collusion.
-	    this.carteActuel.Actualiser(time);  // 
+	    this.carteActuel.detectCollision(); // Verifie s'il n'y a eu aucune collusion.
+	    this.carteActuel.actualiser(time);  // 
 
 	    // Prise en charge de la requete...
         String requete = request.getParameter("requete");
@@ -130,7 +130,7 @@ public class nefertiti extends HttpServlet {
 		        		System.out.print("Gauche : ");
 		        		
 		        	} else if (angle.compareTo("droite") == 0) {	
-		        		this.joueur.getAvion().tournerDroite();
+						this.joueur.getAvion().tournerDroite();
 		        		System.out.print("Droite : ");
 		        	}
 	        	}
@@ -156,7 +156,7 @@ public class nefertiti extends HttpServlet {
 	        	this.joueur = this.carteActuel.getJoueur(Integer.parseInt(id));
 	        	
 	        	//Creation d'un objet de type bullet ajouter a la liste des graphiques de la carte
-	        	this.joueur.getAvion().tirer(this.carteActuel.GetListeDeGraphiques());
+	        	this.joueur.getAvion().tirer(this.carteActuel.getListeDeGraphiques());
 	        	
 	        	try {
 					this.ajouterMsgErreur("-1", "retour,id,requete", "OK", "" + this.joueur.getId(), requete);

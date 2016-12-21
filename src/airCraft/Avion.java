@@ -10,66 +10,73 @@ import bonus.ListeDeBonus;
 
 public class Avion extends Graphique {
 	public static final double ANGLE = 2;
+	public static final int LARGEUR = 1300;
+	public static final int HAUTEUR = 700;
+	public static final int MARGIN = 75;
 
 	private ListeDeBonus listeDeBonus = new ListeDeBonus();
-	private int LONGUEUR_ECRAN=1300;
-	private int HAUTEUR_ECRAN=700;
-	private double vitesse = 0.0;
-	private double vie     = 0.0;
-	private String bonus   = null;
-	private int    attaque = 0;
-	private int    defense = 0;
-	private int score=0;
 
+	private double vitesse = 0.0;
+	private double vie = 0.0;
+	private String vraiNom = null;
+	private int score = 0;
+
+	/* Variables non utilise */
+	private int attaque = 0;
+	private int defense = 0;
+	//private String bonus = null;
+	
 	public Avion(String nomAvion, int x, int y, int width, int height) {
 		super(nomAvion, x, y, width, height);
-		
-		this.SetAngle(0);
 
-		if ((nomAvion == null) || nomAvion.equals("MIG-51S")) { // L'avion par defaut
-			this.SetNom("MIG-51S");
-			this.vie     = 1000;
+		this.setAngle(0);
+
+		System.out.println("Creation de l'avion : " + nomAvion);
+		if ((nomAvion == null) || nomAvion.equals("Su-55") || nomAvion.equals("0")) { // L'avion par defaut
+			this.vie = 1000;
 			this.vitesse = 10;
-			this.attaque = 15;
-			this.defense = 30;
-			
-		} else if (nomAvion.equals("Su-55")) {
-			this.vie     = 1000;
+			this.attaque = 40;
+			this.defense = 40;
+			this.vraiNom = "Su-55";
+
+		} else if (nomAvion.equals("MIG-51S") || nomAvion.equals("2")) {
+			this.vie = 1000;
 			this.vitesse = 10;
-			this.attaque = 15;
+			this.attaque = 20;
 			this.defense = 30;
-			
-		} else if (nomAvion.equals("Su-37K")) {
-			this.vie     = 1000;
-			this.vitesse = 10;
-			this.attaque = 15;
+			this.vraiNom = "MIG-51S";
+
+		} else if (nomAvion.equals("Su-35K") || nomAvion.equals("1")) {
+			this.vie = 1700;
+			this.vitesse = 40;
+			this.attaque = 20;
 			this.defense = 30;
+			this.vraiNom = "Su-35K";
 		}
 	}
 
-	public ListeDeBonus GetMesBonus() {
+	public ListeDeBonus getBonus() {
 		return listeDeBonus;
 	}
 
 	public void tournerGauche() {
-
-		this.SetAngle(this.getAngle() + ANGLE);
+		this.setAngle(this.getAngle() + Avion.ANGLE);
 
 	}
 
-	public void SetVie(double vie) {
+	public void setVie(double vie) {
 		this.vie = vie;
 	}
 
-	public void SetAttaque(int attaque) {
+	public void setAttaque(int attaque) {
 		this.attaque = attaque;
 	}
 
-	public void SetDefense(int defense) {
+	public void setDefense(int defense) {
 		this.defense = defense;
 	}
 
-	public void SetVitesse(double vitesse) {
+	public void setVitesse(double vitesse) {
 		this.vitesse = vitesse;
 	}
 
@@ -77,75 +84,85 @@ public class Avion extends Graphique {
 		return this.vie;
 	}
 
-	public void tournerDroite() {
-		this.SetAngle(this.getAngle() - ANGLE);
+	public String getVraiNom() {
+		return vraiNom;
 	}
 
-	public void Blesser(Bullet balle) {
-		boolean bool_bouclier=false;
+	public void tournerDroite() {
+		this.setAngle(this.getAngle() - Avion.ANGLE);
+	}
+
+	public void blesser(Bullet balle) {
+		boolean bool_bouclier = false;
+
 		if (this.listeDeBonus.size() != 0) {
-			
-			for (int i=0;i<this.listeDeBonus.size();i++)
-			{
-				if (this.listeDeBonus.get(i).GetNom().equals("Bouclier"))
-				{
-					bool_bouclier=true;
+			for (int i = 0; i < this.listeDeBonus.size(); i++) {
+				if (this.listeDeBonus.get(i).getNom().equals("Bouclier")) {
+					bool_bouclier = true;
 				}
 			}
-			
-			if (bool_bouclier==false) {
-				this.SetVie(this.getVie() - balle.GetDegat());
+
+			if (bool_bouclier == false) {
+				this.setVie(this.getVie() - balle.getDegat());
 			}
-			
-			if (this.getVie()<=0)
-			{
-			if (this instanceof Ennemi )
-			{
-				balle.GetTireur().SetScore(balle.GetTireur().GetScore()+this.GetScore());
-			}
+
+			if (this.getVie() <= 0) {
+				if (this instanceof Ennemi) {
+					balle.getTireur().setScore(balle.getTireur().getScore() + this.getScore());
+				}
 			}
 		} else {
-			this.SetVie(this.getVie() - balle.GetDegat());
-			if (this.getVie()<=0)
-			{
-			if (this instanceof Ennemi )
-			{
-				balle.GetTireur().SetScore(balle.GetTireur().GetScore()+this.GetScore());
-			}
+			this.setVie(this.getVie() - balle.getDegat());
+			if (this.getVie() <= 0) {
+				if (this instanceof Ennemi) {
+					balle.getTireur().setScore(balle.getTireur().getScore() + this.getScore());
+				}
 			}
 		}
 
-		if (balle.GetNom().compareTo("DeathBullet") == 0) {
+		if (balle.getNom().compareTo("DeathBullet") == 0) {
 			this.vie = 0;
-			if (this instanceof Ennemi )
-			{
-				balle.GetTireur().SetScore(balle.GetTireur().GetScore()+this.GetScore());
+			if (this instanceof Ennemi) {
+				balle.getTireur().setScore(balle.getTireur().getScore() + this.getScore());
 			}
 		}
-		
 	}
-	public void SetScore(int score)
-	{
-		this.score=score;
+
+	public void setScore(int score) {
+		this.score = score;
 	}
-	public int GetScore()
-	{
+
+	public int getScore() {
 		return this.score;
 	}
-	public void avancer() {
-		int new_x = this.GetX() + (int) (vitesse * Math.cos(this.getAngle() * Math.PI / 180));
-		int new_y = this.GetY() + (int) (vitesse * Math.sin(this.getAngle() * Math.PI / 180));
 
-		if (new_x > 0 && new_x < HAUTEUR_ECRAN-100) {
+	public void avancer() {
+		int new_x = this.getX() + (int) (vitesse * Math.cos(this.getAngle() * Math.PI / 180));
+		int new_y = this.getY() + (int) (vitesse * Math.sin(this.getAngle() * Math.PI / 180));
+
+		if (new_x > 0 && new_x < Avion.HAUTEUR - Avion.MARGIN) {
 			this.setX(new_x);
 		}
 
-		if (new_y > 0 && new_y <  LONGUEUR_ECRAN-100) {
-			this.SetY(new_y);
+		if (new_y > 0 && new_y < Avion.LARGEUR - Avion.MARGIN) {
+			this.setY(new_y);
 		}
 	}
 
-	public void actualiser() {	
+	public void reculer() {
+		int new_x = this.getX() - (int) (vitesse * Math.cos(this.getAngle() * Math.PI / 180));
+		int new_y = this.getY() - (int) (vitesse * Math.sin(this.getAngle() * Math.PI / 180));
+
+		if (new_x > 0 && new_x < Avion.HAUTEUR - Avion.MARGIN) {
+			this.setX(new_x);
+		}
+
+		if (new_y > 0 && new_y < Avion.LARGEUR - Avion.MARGIN) {
+			this.setY(new_y);
+		}
+	}
+
+	public void actualiser() {
 		for (Iterator<Bonus> iterator = listeDeBonus.iterator(); iterator.hasNext();) {
 			Bonus bonusActuel = iterator.next();
 
@@ -153,14 +170,13 @@ public class Avion extends Graphique {
 				iterator.remove();
 
 			} else {
-				if (bonusActuel.GetNom().compareTo("Sante") == 0) {
+				if (bonusActuel.getNom().compareTo("Sante") == 0) {
 					this.vie += 30;
 					bonusActuel.use();
-					
-				} else if (bonusActuel.GetNom().compareTo("Bouclier") == 0) {
+
+				} else if (bonusActuel.getNom().compareTo("Bouclier") == 0) {
 					bonusActuel.use();
 				}
-
 			}
 		}
 	}
@@ -168,39 +184,34 @@ public class Avion extends Graphique {
 	public void tirer(ListeDeGraphiques listeDeGraphiques) {
 		if (this.listeDeBonus.size() != 0) {
 			for (Bonus bonusActuel : listeDeBonus) {
-				if (bonusActuel.GetNom().compareTo("Ballefoistrois") == 0) {
-					listeDeGraphiques.add(new Bullet("Bullet", this.GetX() - (int) (50 * Math.sin(this.getAngle() * Math.PI / 180)),
-							this.GetY() - (int) (50 * Math.cos(this.getAngle() * Math.PI / 180)), 21, 21,
-							this.getAngle(),this));
-					
-					listeDeGraphiques.add(new Bullet("Bullet", this.GetX(), this.GetY(), 21, 21, this.getAngle(),this));
+				if (bonusActuel.getNom().compareTo("Ballefoistrois") == 0) {
+					listeDeGraphiques.add(
+							new Bullet("Bullet", this.getX() - (int) (50 * Math.sin(this.getAngle() * Math.PI / 180)),
+									this.getY() - (int) (50 * Math.cos(this.getAngle() * Math.PI / 180)), 21, 21,
+									this.getAngle(), this));
 
-					listeDeGraphiques.add(new Bullet("Bullet", this.GetX() + (int) (50 * Math.sin(this.getAngle() * Math.PI / 180)),
-							this.GetY() + (int) (50 * Math.cos(this.getAngle() * Math.PI / 180)), 21, 21,
-							this.getAngle(),this));
-					
+					listeDeGraphiques
+							.add(new Bullet("Bullet", this.getX(), this.getY(), 21, 21, this.getAngle(), this));
+
+					listeDeGraphiques.add(
+							new Bullet("Bullet", this.getX() + (int) (50 * Math.sin(this.getAngle() * Math.PI / 180)),
+									this.getY() + (int) (50 * Math.cos(this.getAngle() * Math.PI / 180)), 21, 21,
+									this.getAngle(), this));
+
 					bonusActuel.use();
-				} else if (bonusActuel.GetNom().compareTo("BallePerforante") == 0) {
-					listeDeGraphiques.add(new Bullet("BallePerforante", this.GetX(), this.GetY(), 21, 21, this.getAngle(),this));
+				} else if (bonusActuel.getNom().compareTo("BallePerforante") == 0) {
+					listeDeGraphiques.add(
+							new Bullet("BallePerforante", this.getX(), this.getY(), 21, 21, this.getAngle(), this));
 					bonusActuel.use();
 				} else {
-					listeDeGraphiques.add(new Bullet("Bullet", this.GetX(), this.GetY(), 21, 21, this.getAngle(),this));
+					listeDeGraphiques
+							.add(new Bullet("Bullet", this.getX(), this.getY(), 21, 21, this.getAngle(), this));
 				}
 			}
 		} else {
-			listeDeGraphiques.add(new Bullet("Bullet", this.GetX()+30, this.GetY()-50, 21, 21, this.getAngle(),this));
+			listeDeGraphiques
+					.add(new Bullet("Bullet", this.getX() + 30, this.getY() - 50, 21, 21, this.getAngle(), this));
 		}
 	}
 
-	public void reculer() {
-		int new_x = this.GetX() - (int) (vitesse * Math.cos(this.getAngle() * Math.PI / 180));
-		int new_y = this.GetY() - (int) (vitesse * Math.sin(this.getAngle() * Math.PI / 180));
-
-		if (new_x > 0 && new_x < HAUTEUR_ECRAN-100) {
-			this.setX(new_x);
-		}
-		if (new_y > 0 && new_y < LONGUEUR_ECRAN-100) {
-			this.SetY(new_y);
-		}
-	}
 }

@@ -34,8 +34,8 @@ public class Joueur {
     }
  
     public String [] getEtat() {
-    	String x     = Integer.toString(this.plane.GetX());
-    	String y     = Integer.toString(this.plane.GetY());
+    	String x     = Integer.toString(this.plane.getX());
+    	String y     = Integer.toString(this.plane.getY());
     	String angle = Double.toString(this.plane.getAngle());
     			
         String positions[] = {x, y, angle, this.getPseudo()};
