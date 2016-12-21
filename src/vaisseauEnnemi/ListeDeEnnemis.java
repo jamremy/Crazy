@@ -19,7 +19,7 @@ public class ListeDeEnnemis extends ArrayList<Ennemi> {
 	public JSONObject allPositions() {
 		JSONObject positions = new JSONObject();
 		for (Ennemi e : this) {
-			if (e.getY() > 0 && e.getY() < 700) {
+			if (e.getX() > 0 && e.getX() < 800) {
 				JSONObject graphique = new JSONObject();
 
 				try {
@@ -64,3 +64,4 @@ public class ListeDeEnnemis extends ArrayList<Ennemi> {
 		}
 	}
 }
+
