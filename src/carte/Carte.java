@@ -25,7 +25,7 @@ public class Carte {
 	long TimeLastActualisation = 0;
 	private int nb_ennemi_possible = 3;
 	private int nb_bonus_possible = 3;
-	private float proba_bonus = 1f / 1000f;
+	private float proba_bonus = 1f / 500f;
 	private float proba_monstre = 1f / 15f;
 
 	char BufferMap[][] = new char[1000][];
@@ -172,7 +172,7 @@ public class Carte {
 				// en cas de collision entre un ennemi et un avion on detruit lennemi et on retire des point de vie a
 				// l'avion
 				if (ennemiActuel.detectCollision(j.getAvion()) == true) {
-					ennemiActuel.blesser(new Bullet("DeathBullet", 0, 0, 100, 100, 20, ennemiActuel));
+					ennemiActuel.blesser(new Bullet("DeathBullet", 0, 0, 100, 100, 20, j.getAvion()));
 					j.getAvion().blesser(new Bullet("BallePerforante", 0, 0, 100, 100, 20, ennemiActuel));
 				}
 			}
