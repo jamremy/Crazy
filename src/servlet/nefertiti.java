@@ -83,9 +83,6 @@ public class nefertiti extends HttpServlet {
 					
 					this.joueur = new Joueur(pseudo, this.avion);
 					this.carteActuel.ajouterJoueur(this.joueur);
-										
-					System.out.println("Un nouveau joueur avec le pseudo \""+ this.pseudo + "\" a ete cree " + 
-									   "il a demande l'avion \"" + request.getParameter("avion") + "\".\n");
 					
 					try {
 						this.ajouterMsgErreur("-1", "retour,id,requete", "OK", "" + this.joueur.getId(), requete);
@@ -115,30 +112,20 @@ public class nefertiti extends HttpServlet {
 	        	if (sens != null) {
 		        	if (sens.compareTo("avancer") == 0) {	
 		        		this.joueur.getAvion().avancer();
-		        		System.out.print("Avancer : ");
 		        		
 		        	} else if (sens.compareTo("reculer") == 0) {	
-		        		this.joueur.getAvion().reculer();
-		        		System.out.print("Reculer : ");
-		        		
+		        		this.joueur.getAvion().reculer();		        		
 		        	}
 	        	}
 	        	
 	        	if (angle != null) {
 		        	if (angle.compareTo("gauche") == 0) {
 		        		this.joueur.getAvion().tournerGauche();
-		        		System.out.print("Gauche : ");
 		        		
 		        	} else if (angle.compareTo("droite") == 0) {	
 						this.joueur.getAvion().tournerDroite();
-		        		System.out.print("Droite : ");
 		        	}
 	        	}
-	        	
-	        	System.out.println("x : " + this.joueur.getEtat()[0] + 
-	        					   " y : " + this.joueur.getEtat()[1] + 
-	        					   " angle : " + this.joueur.getEtat()[2] + 
-	        					   " pseudo : " +  this.joueur.getEtat()[3]);
 	        	
 	        	try {
 					this.ajouterMsgErreur("-1", "retour,id,requete", "OK", "" + this.joueur.getId(), requete);
@@ -163,7 +150,14 @@ public class nefertiti extends HttpServlet {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+	        } else if (requete.compareTo("rafraichir") == 0) {  	
+	        	try {
+					this.ajouterMsgErreur("-1", "retour,id,requete", "OK", "" + this.joueur.getId(), requete);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 	        }
+		    
 	        
 	        // Retourner la liste mise a jour des elements présents sur la carte.
 		    this.out.println(this.repondre());

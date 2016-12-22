@@ -1,7 +1,7 @@
-package vaisseauEnnemi;
+package ennemi;
 
+import avion.Avion;
 import carte.ListeDeGraphiques;
-import airCraft.Avion;
 
 public class Ennemi extends Avion {
 	public Ennemi(String nom, int x, int y, int width, int height) {

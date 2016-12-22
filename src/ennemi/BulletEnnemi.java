@@ -1,7 +1,7 @@
-package vaisseauEnnemi;
+package ennemi;
 
-import airCraft.Avion;
-import airCraft.Bullet;
+import avion.Avion;
+import avion.Bullet;
 
 public class BulletEnnemi extends Bullet {
 

@@ -6,8 +6,8 @@ import java.util.Iterator;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import airCraft.Bullet;
-import vaisseauEnnemi.BulletEnnemi;
+import avion.Bullet;
+import ennemi.BulletEnnemi;
 
 public class ListeDeGraphiques extends ArrayList<Graphique> {
 

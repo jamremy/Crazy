@@ -1,4 +1,4 @@
-package airCraft;
+package avion;
 
 import carte.Graphique;
 

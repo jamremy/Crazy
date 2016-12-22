@@ -1,22 +1,22 @@
-package airCraft;
+package avion;
 
 import java.util.Iterator;
 
-import vaisseauEnnemi.Ennemi;
 import carte.Graphique;
 import carte.ListeDeGraphiques;
+import ennemi.Ennemi;
 import bonus.Bonus;
 import bonus.ListeDeBonus;
 
 public class Avion extends Graphique {
-	public static final double ANGLE = 2;
 	public static final int LARGEUR = 1300;
 	public static final int HAUTEUR = 700;
 	public static final int MARGIN = 75;
 
 	private ListeDeBonus listeDeBonus = new ListeDeBonus();
 
-	private double vitesse = 0.0;
+	private double vitesseDeplacement = 0.0;
+	private double vitesseRotation = 0.0;
 	private double vie = 0.0;
 	private String vraiNom = null;
 	private int score = 0;
@@ -34,21 +34,24 @@ public class Avion extends Graphique {
 		System.out.println("Creation de l'avion : " + nomAvion);
 		if ((nomAvion == null) || nomAvion.equals("Su-55") || nomAvion.equals("0")) { // L'avion par defaut
 			this.vie = 1000;
-			this.vitesse = 10;
+			this.vitesseDeplacement = 30;
+			this.vitesseRotation = 10;
 			this.attaque = 40;
 			this.defense = 40;
 			this.vraiNom = "Su-55";
 
 		} else if (nomAvion.equals("MIG-51S") || nomAvion.equals("2")) {
 			this.vie = 1000;
-			this.vitesse = 10;
+			this.vitesseDeplacement = 40;
+			this.vitesseRotation = 15;
 			this.attaque = 20;
 			this.defense = 30;
 			this.vraiNom = "MIG-51S";
 
 		} else if (nomAvion.equals("Su-35K") || nomAvion.equals("1")) {
 			this.vie = 1700;
-			this.vitesse = 40;
+			this.vitesseDeplacement = 30;
+			this.vitesseRotation = 10;
 			this.attaque = 20;
 			this.defense = 30;
 			this.vraiNom = "Su-35K";
@@ -60,7 +63,7 @@ public class Avion extends Graphique {
 	}
 
 	public void tournerGauche() {
-		this.setAngle(this.getAngle() + Avion.ANGLE);
+		this.setAngle(this.getAngle() + this.vitesseRotation);
 
 	}
 
@@ -77,7 +80,7 @@ public class Avion extends Graphique {
 	}
 
 	public void setVitesse(double vitesse) {
-		this.vitesse = vitesse;
+		this.vitesseDeplacement = vitesse;
 	}
 
 	public double getVie() {
@@ -89,20 +92,20 @@ public class Avion extends Graphique {
 	}
 
 	public void tournerDroite() {
-		this.setAngle(this.getAngle() - Avion.ANGLE);
+		this.setAngle(this.getAngle() - this.vitesseRotation);
 	}
 
 	public void blesser(Bullet balle) {
-		boolean bool_bouclier = false;
+		boolean boolBouclier = false;
 
 		if (this.listeDeBonus.size() != 0) {
 			for (int i = 0; i < this.listeDeBonus.size(); i++) {
 				if (this.listeDeBonus.get(i).getNom().equals("Bouclier")) {
-					bool_bouclier = true;
+					boolBouclier = true;
 				}
 			}
 
-			if (bool_bouclier == false) {
+			if (boolBouclier == false) {
 				this.setVie(this.getVie() - balle.getDegat());
 			}
 
@@ -137,8 +140,8 @@ public class Avion extends Graphique {
 	}
 
 	public void avancer() {
-		int new_x = this.getX() + (int) (vitesse * Math.cos(this.getAngle() * Math.PI / 180));
-		int new_y = this.getY() + (int) (vitesse * Math.sin(this.getAngle() * Math.PI / 180));
+		int new_x = this.getX() + (int) (vitesseDeplacement * Math.cos(this.getAngle() * Math.PI / 180));
+		int new_y = this.getY() + (int) (vitesseDeplacement * Math.sin(this.getAngle() * Math.PI / 180));
 
 		if (new_x > 0 && new_x < Avion.HAUTEUR - Avion.MARGIN) {
 			this.setX(new_x);
@@ -150,8 +153,8 @@ public class Avion extends Graphique {
 	}
 
 	public void reculer() {
-		int new_x = this.getX() - (int) (vitesse * Math.cos(this.getAngle() * Math.PI / 180));
-		int new_y = this.getY() - (int) (vitesse * Math.sin(this.getAngle() * Math.PI / 180));
+		int new_x = this.getX() - (int) (vitesseDeplacement * Math.cos(this.getAngle() * Math.PI / 180));
+		int new_y = this.getY() - (int) (vitesseDeplacement * Math.sin(this.getAngle() * Math.PI / 180));
 
 		if (new_x > 0 && new_x < Avion.HAUTEUR - Avion.MARGIN) {
 			this.setX(new_x);
@@ -199,10 +202,12 @@ public class Avion extends Graphique {
 									this.getAngle(), this));
 
 					bonusActuel.use();
+					
 				} else if (bonusActuel.getNom().compareTo("BallePerforante") == 0) {
 					listeDeGraphiques.add(
 							new Bullet("BallePerforante", this.getX(), this.getY(), 21, 21, this.getAngle(), this));
 					bonusActuel.use();
+					
 				} else {
 					listeDeGraphiques
 							.add(new Bullet("Bullet", this.getX(), this.getY(), 21, 21, this.getAngle(), this));

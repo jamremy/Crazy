@@ -1,6 +1,6 @@
 package player;
 
-import airCraft.Avion;
+import avion.Avion;
 
 
 public class Joueur {

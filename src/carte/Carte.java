@@ -6,15 +6,15 @@ import java.io.FileReader;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import airCraft.Bullet;
+import avion.Bullet;
 import bonus.Bonus;
 import bonus.ListeDeBonus;
+import ennemi.BulletEnnemi;
+import ennemi.Ennemi;
+import ennemi.ListeDeEnnemis;
 import explosion.ListeDeExplosions;
 import player.Joueur;
 import player.ListeDeJoueurs;
-import vaisseauEnnemi.BulletEnnemi;
-import vaisseauEnnemi.Ennemi;
-import vaisseauEnnemi.ListeDeEnnemis;
 
 public class Carte {
 	private ListeDeJoueurs listeJoueurs = new ListeDeJoueurs();

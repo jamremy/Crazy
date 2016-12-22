@@ -1,4 +1,4 @@
-package vaisseauEnnemi;
+package ennemi;
 
 import java.util.ArrayList;
 import java.util.Iterator;
