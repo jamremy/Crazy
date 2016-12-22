@@ -9,7 +9,6 @@ public class BulletEnnemi extends Bullet {
 		super("BulletEnnemi", x, y, 40, 40, angle, tireur);
 
 		this.setFrequenceActualisation(10);
-		this.setVitesse(3);
 		this.setDegats(5);
 	}
 }

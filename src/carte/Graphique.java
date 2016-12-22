@@ -9,12 +9,8 @@ public class Graphique {
 	private int id;
 	private double angle;
 	private String type;
-	private long TimeLastActualisation = 0; // Temps duquel la derniere
-											// actualisation du graphique a ete
-											// effectuee
-	private long FrequenceActualisation = 100;// Temps devant s'ecouler avant la
-												// prochaine actualisation du
-												// graphique
+	private long TimeLastActualisation = 0; // Temps duquel la derniere actualisation du graphique a ete effectuee
+	private long FrequenceActualisation = 100;// Temps devant s'ecouler avant la prochaine actualisation du graphique
 
 	public Graphique(String nom, int x, int y, int width, int height) {
 		this.x = (int) x;

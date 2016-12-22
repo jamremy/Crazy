@@ -41,7 +41,7 @@ public class ListeDeBonus extends ArrayList<Bonus> {
 
 		for (Iterator<Bonus> iterator = this.iterator(); iterator.hasNext();) {
 			Bonus b = iterator.next();
-			if (b.GetDuree() == 0 || b.Get_DejaUtilise() == true) {
+			if (b.getDuree() == 0 || b.getDejaUtilise() == true) {
 				iterator.remove();
 			} else {
 

@@ -22,37 +22,35 @@ public class Carte {
 	private ListeDeEnnemis listeEnnemis = new ListeDeEnnemis();
 	private ListeDeExplosions listeExplosions = new ListeDeExplosions();
 	private ListeDeBonus listeBonus = new ListeDeBonus();
+	
 	long TimeLastActualisation = 0;
-	private int nb_ennemi_possible = 3;
-	private int nb_bonus_possible = 3;
-	private float proba_bonus = 1f / 500f;
-	private float proba_monstre = 1f / 15f;
+	
+	private int nbEnnemiPossible = 3;
+	private int nbBonusPossible = 3;
+	
+	private float probabiliteApparitionBonus = 1f / 500f;
+	private float probabiliteEnnemie = 1f / 15f;
 
 	char BufferMap[][] = new char[1000][];
 
-	int frequence_actualisation = 50;
+	int frequenceActualisation = 50;
 
 	public Carte(String cheminCarte) {
 		int i = 0;
 
 		// Chargement du contenu de la carte
 		try {
-			// InputStream ips = new FileInputStream(cheminCarte);
-			// InputStreamReader ipsr = new InputStreamReader(ips);
-			BufferedReader br = new BufferedReader(new FileReader(cheminCarte));
+			BufferedReader bufferReader = new BufferedReader(new FileReader(cheminCarte));
 			String ligne = null;
 
-			while ((ligne = br.readLine()) != null) {
-
-				// System.out.println("chaine : " + chaine);
-
+			while ((ligne = bufferReader.readLine()) != null) {
 				if (i < 1000) {
 					BufferMap[i] = ligne.toCharArray();
 					i++;
 				}
 			}
 
-			br.close();
+			bufferReader.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -62,14 +60,19 @@ public class Carte {
 				if (BufferMap[i][j] != 'A') {
 					if (BufferMap[i][j] == 'B') {
 						this.getListeEnnemis().add(new Ennemi("ennemi1", i * -80, j * 80, 100, 100));
+						
 					} else if (BufferMap[i][j] == 'S') {
 						this.getListeBonus().add(new Bonus("Sante", i * -80, j * 80, 100, 100));
+						
 					} else if (BufferMap[i][j] == 'T') {
 						this.getListeBonus().add(new Bonus("BallePerforante", i * -80, j * 80, 100, 100));
+						
 					} else if (BufferMap[i][j] == 'M') {
 						this.getListeBonus().add(new Bonus("Missile", i * -80, j * 80, 100, 100));
+						
 					} else if (BufferMap[i][j] == '3') {
 						this.getListeBonus().add(new Bonus("Ballefoistrois", i * -80, j * 80, 100, 100));
+						
 					} else if (BufferMap[i][j] == 'O') {
 						this.getListeBonus().add(new Bonus("Bouclier", i * -80, j * 80, 100, 100));
 					}
@@ -80,12 +83,15 @@ public class Carte {
 
 	// Actualise la liste de graphique prśent sur la map
 	public void actualiser(long time) {
-		if (Math.abs(time - TimeLastActualisation) > this.frequence_actualisation) {
+		if (Math.abs(time - TimeLastActualisation) > this.frequenceActualisation) {
 			double alea = Math.random();
-			if (alea < proba_bonus) {
-				int bonus = (int) (Math.random() * nb_bonus_possible);
+			
+			if (alea < probabiliteApparitionBonus) {
+				int bonus = (int) (Math.random() * nbBonusPossible);
+				
 				if (bonus == 0) {
 					this.getListeBonus().add(new Bonus("Sante", -100, (int) (Math.random() * 1000), 100, 100));
+					
 				} else if (bonus == 1) {
 					this.getListeBonus().add(new Bonus("Bouclier", -100, (int) (Math.random() * 1000), 100, 100));
 
@@ -93,10 +99,11 @@ public class Carte {
 					this.getListeBonus().add(new Bonus("Ballefoistrois", -100, (int) (Math.random() * 1000), 100, 100));
 
 				}
-			} else if (alea < proba_monstre) {
-				int bonus = (int) (Math.random() * nb_ennemi_possible);
+			} else if (alea < probabiliteEnnemie) {
+				int bonus = (int) (Math.random() * nbEnnemiPossible);
 				if (bonus == 0) {
 					this.getListeEnnemis().add(new Ennemi("ennemi1", -100, (int) (Math.random() * 1000), 100, 100));
+					
 				} else if (bonus == 1) {
 					this.getListeEnnemis().add(new Ennemi("ennemi2", -100, (int) (Math.random() * 1000), 100, 100));
 
@@ -115,7 +122,6 @@ public class Carte {
 		getListeJoueurs().actualiser(time);
 		getListeBonus().Actualiser(time);
 		getListeExplosions().Actualiser(time);
-
 	}
 
 	public JSONObject getEtat() {
@@ -139,15 +145,14 @@ public class Carte {
 		return getListeGraphiques();
 	}
 
-	// Detecte et traite les collision entre les different objet present sur la
-	// carte
+	// Detecte et traite les collision entre les different objet present sur la carte
 	public void detectCollision() {
 		for (Bonus bonusActuel : getListeBonus()) {
 			for (Joueur j : getListeJoueurs().getListeJoueur()) {
 				// en cas de collision entre un avion et un bonus on affecte ce bonus a la liste des bonus de l'avion
 				if (bonusActuel.detectCollision(j.getAvion()) == true) {
 					j.getAvion().getBonus().add(bonusActuel);
-					bonusActuel.Set_DejaUtilise(true);
+					bonusActuel.setDejaUtilise(true);
 				}
 			}
 		}
