@@ -43,6 +43,24 @@ public class Ennemi extends Avion {
 		this.setFrequenceActualisation(3000);
 	}
 
+	public void tirer(ListeDeGraphiques listeDeGraphiques) {
+
+		// Definition d'un comportement de tire pour lennemi1
+		if (this.getNom().compareTo("ennemi1") == 0) {
+			listeDeGraphiques.add(new BulletEnnemi(this.getX(), this.getY(), -180, this));
+			listeDeGraphiques.add(new BulletEnnemi(this.getX(), this.getY(), -90, this));
+		}
+		// Definition d'un comportement de tire pour lennemi2
+		else if (this.getNom().compareTo("ennemi2") == 0) {
+			listeDeGraphiques.add(new BulletEnnemi(this.getX(), this.getY(), +90, this));
+			listeDeGraphiques.add(new BulletEnnemi(this.getX(), this.getY(), -90, this));
+
+		} else if (this.getNom().compareTo("ennemi3") == 0) {
+			listeDeGraphiques.add(new BulletEnnemi(this.getX(), this.getY(), -70, this));
+			listeDeGraphiques.add(new BulletEnnemi(this.getX(), this.getY(), +70, this));
+		}
+	}
+
 	public void actualiser(long time, ListeDeGraphiques listeDeGraphiques) {
 		this.tirer(listeDeGraphiques);
 		this.setTimeLastActualisation(time);
